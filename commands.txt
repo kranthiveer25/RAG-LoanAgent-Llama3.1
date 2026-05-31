@@ -1,9 +1,0 @@
-Every time you want to use the app — 2 terminals:
-Terminal 1 (ML server):
-bashcd /Users/kranthiveer/Desktop/chat_bot_loanQI
-source venv/bin/activate
-python ml_server.py
-Terminal 2 (Ollama):
-bash
-OLLAMA_ORIGINS=* ollama serve
-Then open loan-eligibility-website-5.html in your browser.
