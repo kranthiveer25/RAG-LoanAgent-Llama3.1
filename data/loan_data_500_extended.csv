@@ -1,0 +1,501 @@
+id,name,age,city,job,income,cibil,bank,loan_type,loan_amount,tenure_months,interest_rate,emi,eligible
+1,Manoj,41,Pune,Manager,92364,695,HDFC,Education,835784,24,11.32,38766.45,No
+2,Anjali,23,Jaipur,Teacher,85525,593,PNB,Car,1106970,24,10.51,50971.36,No
+3,Sita,60,Bangalore,IT Engineer,50009,768,SBI,Car,3807665,240,10.76,17572.37,Yes
+4,Pooja,27,Jaipur,Student,43805,821,HDFC,Home,2892278,48,12.25,67637.13,Yes
+5,Nikhil,51,Hyderabad,Business,35107,603,Axis,Personal,642027,360,11.62,1990.64,No
+6,Meena,53,Hyderabad,Doctor,18418,557,SBI,Car,1440221,12,10.58,132716.37,No
+7,Manoj,23,Mumbai,Student,25534,697,ICICI,Home,3526202,36,11.1,108822.51,No
+8,Kavya,31,Delhi,Analyst,71937,630,Axis,Home,1615535,36,9.98,49354.59,No
+9,Anjali,41,Pune,Doctor,80605,581,Kotak,Home,2174942,12,11.91,202831.47,No
+10,Riya,49,Delhi,Sales Executive,51250,784,Axis,Home,1304151,120,7.57,11690.63,Yes
+11,Suresh,22,Hyderabad,Teacher,89745,709,Kotak,Home,2253867,12,11.38,209196.42,Yes
+12,Vikas,25,Delhi,Doctor,18506,690,Kotak,Car,4414029,60,8.55,79857.14,No
+13,Divya,22,Vizag,Analyst,30165,678,PNB,Home,683976,120,8.94,6209.36,No
+14,Anjali,30,Chennai,Doctor,22650,779,ICICI,Personal,2004112,360,7.77,5999.53,No
+15,Nikhil,50,Hyderabad,Teacher,48763,751,SBI,Car,732988,24,11.93,34184.73,Yes
+16,Suresh,60,Delhi,Student,87302,821,Axis,Car,1892800,120,10.86,17486.32,Yes
+17,Ravi,51,Ahmedabad,Analyst,30834,708,Yes Bank,Car,3696025,240,8.65,16732.21,Yes
+18,Pooja,26,Bangalore,Freelancer,90034,848,Axis,Home,1148130,360,10.19,3514.23,Yes
+19,Anjali,46,Chennai,Manager,82622,584,ICICI,Car,4032428,240,8.08,18159.37,No
+20,Meena,30,Mumbai,Teacher,60937,816,Canara,Education,2125039,120,13.38,20078.08,Yes
+21,Rahul,21,Chennai,IT Engineer,81981,800,Canara,Home,794781,360,13.35,2502.46,Yes
+22,Vikas,58,Chennai,Clerk,89356,821,SBI,Car,4806255,120,10.07,44085.37,Yes
+23,Ravi,25,Vizag,Doctor,84399,808,ICICI,Home,1961024,120,8.25,17690.07,Yes
+24,Priya,21,Jaipur,Sales Executive,47641,675,Canara,Home,1728158,36,12.92,54206.56,No
+25,Kiran,57,Pune,Analyst,96070,625,HDFC,Personal,1822042,36,10.45,55901.26,No
+26,Priya,52,Jaipur,Teacher,46104,841,Canara,Personal,1923844,120,9.16,17500.57,Yes
+27,Arjun,48,Pune,Teacher,97665,575,Kotak,Personal,1669364,360,11.17,5155.09,No
+28,Priya,43,Delhi,Business,61976,756,Yes Bank,Home,3211050,60,10.07,58906.71,Yes
+29,Kavya,50,Hyderabad,Student,55647,685,Yes Bank,Personal,948576,60,10.31,17439.57,No
+30,Rohit,36,Jaipur,Manager,91835,766,PNB,Personal,2408901,24,11.5,111913.53,Yes
+31,Ravi,49,Hyderabad,Teacher,18956,624,Yes Bank,Education,140286,240,10.58,646.37,No
+32,Kavya,55,Bangalore,Clerk,68620,716,Kotak,Car,496436,36,11.24,15339.87,Yes
+33,Arjun,55,Kolkata,Student,42145,687,ICICI,Personal,314427,12,10.02,28827.72,No
+34,Anjali,21,Bangalore,Manager,77563,612,ICICI,Car,786199,120,12.7,7383.72,No
+35,Divya,27,Kolkata,Teacher,40549,664,ICICI,Education,2759647,360,12.73,8641.53,No
+36,Meena,39,Pune,IT Engineer,56841,745,Yes Bank,Home,223245,60,13.14,4209.66,Yes
+37,Manoj,26,Delhi,Analyst,75099,767,PNB,Car,4007334,48,12.77,94147.3,Yes
+38,Pooja,27,Vizag,Doctor,86782,820,Axis,Personal,450112,60,10.59,8296.31,Yes
+39,Sneha,39,Chennai,Freelancer,42596,714,HDFC,Car,346393,240,12.68,1626.32,Yes
+40,Rahul,32,Mumbai,Manager,34989,808,PNB,Car,865758,48,8.21,19517.43,Yes
+41,Neha,38,Ahmedabad,Business,83698,594,HDFC,Home,2006767,12,11.44,186361.76,No
+42,Pooja,36,Chennai,Student,43892,834,Kotak,Education,2170267,60,8.83,39365.03,Yes
+43,Divya,32,Mumbai,Business,30485,741,Canara,Personal,1230763,36,11.77,38211.77,Yes
+44,Riya,28,Delhi,Freelancer,22680,599,PNB,Home,4011328,12,12.84,377198.54,No
+45,Neha,57,Ahmedabad,IT Engineer,40724,792,Yes Bank,Home,2537623,24,8.64,114869.73,Yes
+46,Amit,25,Pune,IT Engineer,86764,683,Axis,Car,4978024,60,13.41,94092.95,No
+47,Riya,39,Ahmedabad,Manager,63589,651,Axis,Personal,2463687,240,9.55,11245.7,No
+48,Manoj,21,Pune,Teacher,95534,729,Kotak,Personal,3551685,48,12.99,83605.19,Yes
+49,Divya,39,Vizag,IT Engineer,49120,655,Canara,Personal,3995330,120,7.74,35871.4,No
+50,Suresh,35,Bangalore,Manager,57644,657,Yes Bank,Education,2149424,12,13.44,203192.22,No
+51,Sneha,29,Delhi,Teacher,56751,725,Axis,Car,3835158,36,9.95,117132.12,Yes
+52,Ravi,50,Kolkata,Doctor,51722,798,HDFC,Car,4658655,360,11.75,14461.24,Yes
+53,Sita,23,Bangalore,IT Engineer,50606,811,Canara,Education,2926193,12,9.87,267917.35,Yes
+54,Ravi,45,Jaipur,Manager,61210,575,Canara,Personal,3444678,360,9.82,10508.18,No
+55,Riya,39,Pune,Business,26316,789,Canara,Car,320796,12,8.16,28914.41,Yes
+56,Priya,27,Chennai,Manager,66123,684,Yes Bank,Home,1408067,60,10.5,25931.9,No
+57,Pooja,50,Hyderabad,Analyst,65546,580,Kotak,Education,2888944,24,11.19,133842.37,No
+58,Sneha,46,Pune,Sales Executive,44692,800,SBI,Car,4135304,120,8.97,37552.01,Yes
+59,Sneha,27,Jaipur,Analyst,15592,687,Yes Bank,Car,2539486,24,11.04,117493.55,No
+60,Sita,35,Pune,Manager,97000,556,Kotak,Home,3436430,360,9.03,10407.61,No
+61,Rohit,21,Jaipur,Analyst,36218,846,Canara,Home,1240172,48,10.75,28614.39,Yes
+62,Kavya,28,Ahmedabad,Analyst,95657,800,Canara,Personal,2357615,12,11.15,218374.09,Yes
+63,Nikhil,46,Delhi,Student,30150,677,HDFC,Home,542040,36,12.34,16914.66,No
+64,Kavya,31,Ahmedabad,Student,97587,849,Kotak,Education,698919,120,13.17,6591.39,Yes
+65,Arjun,23,Bangalore,Analyst,33530,800,Yes Bank,Personal,4812313,36,8.12,144529.8,Yes
+66,Suresh,27,Hyderabad,IT Engineer,61259,662,Kotak,Home,4874150,240,8.28,21990.54,No
+67,Manoj,32,Pune,Manager,85062,736,SBI,Home,4932603,240,8.42,22283.03,Yes
+68,Manoj,32,Ahmedabad,Sales Executive,91720,617,Kotak,Personal,3581297,60,11.43,66510.65,No
+69,Rohit,40,Bangalore,Clerk,16360,639,Yes Bank,Personal,4409894,24,13.41,208385.87,No
+70,Anjali,21,Ahmedabad,Manager,44601,651,Yes Bank,Car,2599182,24,12.68,122031.59,No
+71,Amit,60,Mumbai,Sales Executive,32209,830,Kotak,Personal,2006779,12,7.65,180024.8,Yes
+72,Nikhil,58,Ahmedabad,Business,27719,660,Kotak,Education,3100167,120,8.64,28066.85,No
+73,Ravi,60,Ahmedabad,Freelancer,65774,561,Axis,Personal,3445333,24,11.87,160595.58,No
+74,Riya,36,Hyderabad,Analyst,49892,838,Axis,Home,2432184,240,12.57,11407.96,Yes
+75,Kavya,39,Kolkata,Teacher,19806,621,Axis,Car,919046,120,11.21,8517.26,No
+76,Suresh,21,Jaipur,Teacher,86131,737,HDFC,Personal,4325552,360,11.32,13375.57,Yes
+77,Sneha,58,Chennai,Teacher,53217,836,ICICI,Car,4716855,120,10.05,43257.49,Yes
+78,Nikhil,26,Chennai,Student,72282,760,SBI,Home,195042,36,8.03,5852.89,Yes
+79,Sita,36,Kolkata,Doctor,53706,567,SBI,Personal,1289917,36,9.99,39410.55,No
+80,Rahul,27,Pune,Freelancer,16562,579,Kotak,Home,2041892,36,9.04,61846.64,No
+81,Amit,29,Vizag,Business,54022,781,ICICI,Personal,3532078,48,12.31,82643.27,Yes
+82,Sneha,42,Vizag,Analyst,55313,677,PNB,Personal,3739632,36,10.07,114339.25,No
+83,Manoj,36,Pune,Analyst,53652,756,Yes Bank,Car,4707847,48,8.81,106721.01,Yes
+84,Kiran,55,Delhi,Student,94383,808,Kotak,Education,2819600,360,7.78,8441.57,Yes
+85,Neha,55,Jaipur,IT Engineer,20863,577,ICICI,Car,3196492,24,10.22,146798.9,No
+86,Sita,45,Pune,Student,76826,791,Kotak,Education,4545469,48,7.72,102007.9,Yes
+87,Arjun,22,Ahmedabad,Doctor,90971,569,HDFC,Home,2879280,48,8.0,64783.8,No
+88,Amit,42,Vizag,Doctor,17901,628,PNB,Home,247544,12,10.78,22852.44,No
+89,Nikhil,37,Chennai,Freelancer,42320,655,ICICI,Education,4352933,60,10.58,80224.56,No
+90,Rohit,49,Kolkata,Analyst,58056,788,Yes Bank,Car,3841638,24,12.31,179772.65,Yes
+91,Pooja,41,Kolkata,Business,54718,619,Kotak,Education,2406163,48,7.55,53913.09,No
+92,Divya,34,Ahmedabad,Student,50037,569,HDFC,Education,4476108,36,11.57,138722.05,No
+93,Meena,24,Bangalore,IT Engineer,79545,827,PNB,Car,3373885,36,11.51,104506.09,Yes
+94,Kavya,44,Ahmedabad,Freelancer,57724,700,ICICI,Personal,1102997,36,12.66,34517.68,Yes
+95,Sneha,30,Hyderabad,Analyst,98268,710,PNB,Personal,3162504,12,8.46,285837.65,Yes
+96,Amit,44,Kolkata,Student,93187,555,HDFC,Education,3759376,240,12.09,17557.85,No
+97,Vikas,39,Ahmedabad,Student,97491,840,ICICI,Personal,1211367,120,8.15,10917.45,Yes
+98,Riya,40,Kolkata,Student,18088,679,PNB,Personal,659856,48,12.25,15431.01,No
+99,Kavya,24,Hyderabad,Freelancer,68978,848,Yes Bank,Education,1396122,24,10.53,64297.24,Yes
+100,Kavya,22,Kolkata,Doctor,86425,807,Yes Bank,Car,2807406,60,10.97,51922.97,Yes
+101,Rahul,24,Delhi,Student,89273,671,SBI,Education,2776589,48,11.38,64428.43,No
+102,Kavya,39,Pune,Student,91516,830,HDFC,Personal,1265774,24,7.72,56812.16,Yes
+103,Amit,32,Chennai,Manager,28012,794,SBI,Personal,98673,60,9.44,1799.8,Yes
+104,Suresh,25,Mumbai,Freelancer,50015,571,ICICI,Home,2101071,60,9.8,38449.6,No
+105,Sneha,36,Delhi,Doctor,94300,703,SBI,Home,2023397,60,11.82,37709.38,Yes
+106,Vikas,39,Pune,Teacher,23224,575,Kotak,Home,2597264,60,8.43,46936.89,No
+107,Anjali,24,Chennai,IT Engineer,97143,804,Axis,Personal,1096832,36,12.9,34397.87,Yes
+108,Manoj,47,Bangalore,Clerk,80399,607,Yes Bank,Car,742684,120,13.43,7020.22,No
+109,Nikhil,42,Vizag,Freelancer,54617,562,Canara,Education,4900313,360,12.61,15328.45,No
+110,Vikas,54,Hyderabad,Business,77169,577,Kotak,Education,1044679,36,11.54,32367.64,No
+111,Manoj,54,Bangalore,Sales Executive,93670,844,Axis,Education,4071371,240,13.29,19218.57,Yes
+112,Divya,24,Mumbai,IT Engineer,65255,634,ICICI,Car,3217513,120,12.15,30070.34,No
+113,Riya,27,Chennai,Sales Executive,61746,850,Canara,Car,828463,48,7.52,18557.57,Yes
+114,Kiran,24,Delhi,Analyst,89564,646,Canara,Personal,4182959,360,12.8,13106.6,No
+115,Divya,47,Bangalore,Clerk,24274,765,ICICI,Home,4522874,240,12.95,21285.78,No
+116,Neha,50,Mumbai,Clerk,35684,589,Kotak,Education,319629,48,9.95,7321.5,No
+117,Priya,30,Hyderabad,Manager,98163,736,Canara,Personal,1270187,48,8.13,28613.61,Yes
+118,Anjali,23,Delhi,Manager,63608,846,Canara,Personal,1981704,48,13.25,46755.83,Yes
+119,Suresh,27,Ahmedabad,IT Engineer,72196,599,ICICI,Education,1774205,48,8.61,40145.08,No
+120,Pooja,31,Mumbai,Freelancer,63554,572,ICICI,Education,2015688,24,12.08,94132.63,No
+121,Ravi,29,Delhi,IT Engineer,66475,819,Canara,Home,362264,24,8.47,16372.82,Yes
+122,Nikhil,53,Chennai,Business,34751,758,Kotak,Personal,3890175,360,13.04,12215.15,Yes
+123,Vikas,47,Jaipur,Analyst,19446,819,ICICI,Home,1256844,48,8.02,28284.23,No
+124,Sita,22,Ahmedabad,Freelancer,64541,742,ICICI,Personal,3029950,360,7.5,9047.77,Yes
+125,Meena,35,Kolkata,Business,95442,716,SBI,Car,4714070,36,12.46,147262.31,Yes
+126,Priya,36,Ahmedabad,IT Engineer,56828,636,Yes Bank,Education,3427571,60,9.36,62473.19,No
+127,Sneha,38,Kolkata,Freelancer,28392,817,Canara,Home,1081845,240,12.66,5078.36,Yes
+128,Vikas,59,Mumbai,Clerk,64205,731,Canara,Car,3224231,48,11.07,74607.36,Yes
+129,Arjun,37,Ahmedabad,Teacher,74086,743,HDFC,Home,1280952,240,13.12,6037.55,Yes
+130,Sita,49,Delhi,Doctor,59830,697,SBI,Car,4716214,360,12.92,14793.19,No
+131,Vikas,23,Hyderabad,Teacher,72943,812,PNB,Personal,789103,60,8.84,14314.33,Yes
+132,Rahul,51,Ahmedabad,Doctor,47836,724,Canara,Home,511015,48,10.24,11736.31,Yes
+133,Divya,34,Chennai,Doctor,36135,585,ICICI,Education,551490,24,8.82,25005.48,No
+134,Ravi,48,Ahmedabad,Business,45984,820,PNB,Home,638875,12,11.69,59463.29,Yes
+135,Divya,39,Hyderabad,Business,41332,639,PNB,Home,4215425,60,9.98,77268.74,No
+136,Nikhil,40,Vizag,Analyst,65645,833,Yes Bank,Education,2092321,36,9.52,63653.05,Yes
+137,Divya,42,Kolkata,Teacher,51894,841,SBI,Car,3659817,36,9.65,111471.93,Yes
+138,Sita,42,Chennai,IT Engineer,34450,658,SBI,Education,3021607,360,9.76,9212.54,No
+139,Riya,47,Jaipur,Freelancer,80137,835,HDFC,Personal,3565569,240,9.77,16308.02,Yes
+140,Rohit,28,Jaipur,Business,68790,797,Axis,Personal,929631,360,11.55,2880.56,Yes
+141,Suresh,51,Bangalore,Freelancer,46468,786,Axis,Education,2770846,12,12.59,259974.63,Yes
+142,Ravi,47,Delhi,IT Engineer,76427,645,Canara,Home,4887422,360,9.53,14869.98,No
+143,Rahul,25,Ahmedabad,IT Engineer,42945,621,Axis,Car,647532,12,9.78,59238.39,No
+144,Manoj,21,Jaipur,Clerk,31432,740,Yes Bank,Home,2427709,240,9.07,11032.93,Yes
+145,Neha,51,Hyderabad,Student,26663,602,PNB,Personal,2701221,12,11.63,251281.08,No
+146,Rohit,36,Chennai,Student,73266,698,Kotak,Education,4693627,12,9.11,426768.03,No
+147,Pooja,40,Chennai,Sales Executive,55877,649,HDFC,Home,3273338,240,10.39,15055.99,No
+148,Riya,31,Chennai,Analyst,56623,796,HDFC,Education,3703019,60,12.91,69684.65,Yes
+149,Ravi,23,Bangalore,Student,74266,551,HDFC,Education,4206717,120,8.47,38025.22,No
+150,Manoj,43,Delhi,Freelancer,59434,629,Axis,Home,2696775,36,10.35,82663.64,No
+151,Ravi,40,Vizag,Student,64109,557,ICICI,Car,721741,36,10.57,22167.47,No
+152,Nikhil,23,Delhi,Clerk,48156,719,PNB,Personal,3646838,48,11.95,85054.9,Yes
+153,Rahul,56,Jaipur,Freelancer,81571,676,Kotak,Car,4752659,240,8.68,21521.62,No
+154,Rahul,55,Bangalore,Student,72398,662,SBI,Personal,4905164,360,8.34,14761.82,No
+155,Ravi,31,Kolkata,Doctor,19418,622,Canara,Education,1118861,120,8.3,10097.72,No
+156,Meena,37,Vizag,IT Engineer,86776,717,Kotak,Education,1894515,36,8.5,57098.58,Yes
+157,Riya,40,Delhi,Manager,71393,827,Canara,Personal,1345499,60,11.38,24976.95,Yes
+158,Ravi,58,Bangalore,Analyst,45488,820,Kotak,Education,4443446,48,8.14,100107.14,Yes
+159,Neha,49,Mumbai,Sales Executive,23084,772,Canara,Home,1844654,120,9.13,16775.59,No
+160,Sita,52,Delhi,Doctor,60803,608,Yes Bank,Home,1403639,360,9.08,4253.03,No
+161,Kavya,21,Jaipur,Analyst,15616,613,SBI,Car,4247481,120,11.98,39636.08,No
+162,Vikas,58,Mumbai,Analyst,52642,596,Axis,Personal,654736,36,11.53,20284.09,No
+163,Neha,60,Bangalore,Freelancer,94878,726,SBI,Education,1805970,36,11.48,55924.87,Yes
+164,Manoj,30,Kolkata,Sales Executive,30981,772,ICICI,Car,3154363,48,10.4,72550.35,Yes
+165,Sita,28,Vizag,IT Engineer,55231,699,Kotak,Personal,993820,360,12.98,3118.94,No
+166,Pooja,40,Kolkata,IT Engineer,64620,621,Axis,Personal,478840,360,9.84,1460.99,No
+167,Neha,40,Ahmedabad,Teacher,20672,589,Kotak,Personal,4259291,24,8.35,192289.24,No
+168,Priya,43,Kolkata,Manager,45480,725,HDFC,Education,262843,240,9.5,1199.22,Yes
+169,Kavya,51,Delhi,Analyst,61685,634,Kotak,Personal,1197419,36,8.48,36082.23,No
+170,Vikas,26,Chennai,IT Engineer,32285,666,HDFC,Personal,461717,24,11.61,21471.76,No
+171,Pooja,37,Delhi,Business,94090,788,SBI,Personal,4554593,48,10.58,104926.44,Yes
+172,Suresh,27,Kolkata,Business,48701,846,PNB,Personal,1664163,12,8.03,149816.27,Yes
+173,Meena,35,Bangalore,Student,61595,710,SBI,Car,1675323,48,9.9,38357.92,Yes
+174,Rahul,45,Vizag,Analyst,77963,633,Canara,Personal,528241,36,10.69,16241.94,No
+175,Amit,50,Mumbai,IT Engineer,26115,651,Canara,Education,2998086,12,12.44,280920.66,No
+176,Meena,31,Chennai,Clerk,67825,651,Yes Bank,Car,4358092,48,13.35,102914.53,No
+177,Vikas,37,Ahmedabad,Doctor,98562,560,ICICI,Personal,3452626,12,8.54,312290.02,No
+178,Kiran,56,Mumbai,IT Engineer,90907,590,PNB,Car,2009073,360,9.43,6107.02,No
+179,Arjun,48,Hyderabad,IT Engineer,85778,578,Canara,Education,933093,12,12.21,87251.97,No
+180,Kavya,31,Mumbai,Sales Executive,97505,598,SBI,Personal,932038,48,13.12,21965.03,No
+181,Neha,49,Kolkata,Clerk,51649,809,PNB,Car,1175501,12,8.82,106598.35,Yes
+182,Manoj,21,Pune,Doctor,88173,722,Canara,Personal,1725394,12,13.06,162560.87,Yes
+183,Pooja,46,Pune,Student,70813,568,SBI,Home,168276,12,11.46,15630.04,No
+184,Anjali,60,Bangalore,Sales Executive,64858,677,HDFC,Education,318989,36,11.7,9897.52,No
+185,Sneha,43,Jaipur,Student,54094,692,Canara,Car,76474,60,12.17,1429.68,No
+186,Neha,22,Vizag,IT Engineer,87578,693,Axis,Home,829702,120,12.53,7780.53,No
+187,Sita,30,Vizag,Doctor,89295,817,Canara,Car,4830341,12,9.19,439520.78,Yes
+188,Rahul,23,Ahmedabad,Teacher,78659,736,HDFC,Education,1105611,24,8.91,50171.71,Yes
+189,Nikhil,45,Pune,IT Engineer,98822,827,SBI,Home,435750,24,10.93,20140.73,Yes
+190,Rohit,57,Chennai,Clerk,58000,726,Axis,Car,4064031,24,11.45,188723.44,Yes
+191,Divya,28,Jaipur,Clerk,69743,759,Axis,Home,2488449,24,8.29,112280.89,Yes
+192,Priya,45,Chennai,IT Engineer,65771,590,ICICI,Personal,1959573,12,11.96,182828.16,No
+193,Sita,35,Hyderabad,IT Engineer,41639,713,PNB,Education,1383255,48,8.15,31166.46,Yes
+194,Priya,30,Delhi,Business,55022,719,Canara,Education,525794,240,10.03,2410.55,Yes
+195,Kavya,26,Bangalore,Doctor,58624,714,HDFC,Car,3721940,48,10.26,85496.06,Yes
+196,Manoj,31,Vizag,Doctor,16785,703,Kotak,Personal,3510588,120,12.22,32829.85,No
+197,Kavya,51,Hyderabad,Business,24030,554,HDFC,Personal,1515330,12,10.37,139372.48,No
+198,Sneha,37,Pune,Manager,61581,659,Kotak,Education,3877858,12,12.34,363032.14,No
+199,Sita,54,Chennai,Teacher,19691,799,Canara,Personal,2447299,12,10.34,225029.14,No
+200,Priya,53,Vizag,Analyst,15163,621,HDFC,Car,2053186,36,8.17,61692.54,No
+201,Divya,50,Hyderabad,Teacher,56158,841,Axis,Car,3175926,240,7.83,14269.17,Yes
+202,Rohit,37,Kolkata,Sales Executive,73694,680,Axis,Education,1136639,240,11.92,5300.53,No
+203,Neha,26,Mumbai,Analyst,95150,553,Kotak,Personal,1801788,48,7.76,40450.14,No
+204,Priya,22,Mumbai,Analyst,80025,753,ICICI,Education,4578499,36,10.58,140636.23,Yes
+205,Ravi,59,Jaipur,Manager,75824,760,Axis,Education,2307318,60,9.79,42220.07,Yes
+206,Amit,50,Bangalore,Analyst,89522,692,ICICI,Home,151405,360,7.62,452.62,No
+207,Kiran,36,Chennai,Freelancer,72282,714,Canara,Home,4385805,60,10.3,80625.72,Yes
+208,Anjali,43,Jaipur,Manager,76726,713,Yes Bank,Car,4704782,48,9.35,107180.81,Yes
+209,Meena,33,Kolkata,Teacher,81360,601,ICICI,Car,537728,24,11.08,24887.84,No
+210,Ravi,36,Chennai,Clerk,68548,826,HDFC,Car,1981544,12,12.37,185555.08,Yes
+211,Vikas,58,Jaipur,Sales Executive,81316,644,PNB,Personal,888833,240,13.09,4188.26,No
+212,Kavya,47,Jaipur,Doctor,64899,780,PNB,Car,1861202,24,12.17,86987.93,Yes
+213,Suresh,23,Vizag,Teacher,31574,790,Yes Bank,Home,2844990,120,8.11,25630.99,Yes
+214,Kavya,49,Hyderabad,Doctor,97682,780,Canara,Home,2883283,48,8.98,65462.54,Yes
+215,Pooja,55,Pune,Sales Executive,30543,591,PNB,Car,3199281,120,10.94,29577.35,No
+216,Manoj,43,Delhi,Student,21330,595,PNB,Personal,1916056,36,8.68,57843.6,No
+217,Ravi,32,Pune,Sales Executive,30778,745,Kotak,Car,1597930,240,7.64,7166.72,Yes
+218,Amit,52,Ahmedabad,Doctor,18795,600,Kotak,Education,2264555,48,9.83,51815.85,No
+219,Kiran,46,Ahmedabad,Analyst,46106,848,Kotak,Car,1919907,360,9.82,5856.78,Yes
+220,Neha,56,Bangalore,Doctor,57086,729,Kotak,Home,3122597,60,7.78,56092.25,Yes
+221,Meena,50,Bangalore,Teacher,94641,701,Yes Bank,Personal,4708871,48,12.45,110315.11,Yes
+222,Divya,60,Vizag,IT Engineer,33669,697,PNB,Education,1063514,60,11.03,19680.33,No
+223,Suresh,41,Hyderabad,IT Engineer,39729,823,Canara,Home,2904843,48,11.74,67622.32,Yes
+224,Rahul,24,Chennai,Clerk,80786,624,PNB,Home,550090,48,7.78,12351.81,No
+225,Arjun,46,Ahmedabad,Sales Executive,65125,772,Yes Bank,Education,1116472,120,12.1,10429.71,Yes
+226,Anjali,24,Vizag,IT Engineer,77051,746,Yes Bank,Education,1023960,60,9.93,18760.65,Yes
+227,Rohit,59,Jaipur,Business,47853,776,SBI,Home,2619698,48,12.38,61333.68,Yes
+228,Rohit,30,Hyderabad,Doctor,91233,655,SBI,Personal,700895,48,11.1,16222.8,No
+229,Vikas,59,Mumbai,Teacher,68619,693,Kotak,Car,2290453,360,12.23,7140.49,No
+230,Neha,56,Kolkata,IT Engineer,96542,692,Kotak,Car,1493040,360,10.84,4596.9,No
+231,Rohit,34,Ahmedabad,IT Engineer,32375,646,Yes Bank,Car,4741804,36,9.13,143742.52,No
+232,Kavya,34,Bangalore,Analyst,67270,794,PNB,Personal,2904819,36,8.83,87814.29,Yes
+233,Rohit,57,Delhi,Teacher,74575,639,ICICI,Home,2741809,36,10.92,84478.18,No
+234,Nikhil,49,Pune,Business,96351,557,Canara,Education,4328556,36,9.8,132020.96,No
+235,Pooja,34,Jaipur,Clerk,75169,763,Canara,Car,1922623,48,11.5,44660.93,Yes
+236,Amit,44,Bangalore,Student,90540,570,ICICI,Education,3187549,240,12.46,14936.32,No
+237,Rahul,28,Pune,Manager,67389,764,HDFC,Education,2516863,360,12.32,7852.61,Yes
+238,Pooja,27,Chennai,Freelancer,70385,731,SBI,Car,4567858,12,11.71,425229.51,Yes
+239,Amit,29,Chennai,Sales Executive,28153,666,SBI,Personal,4639400,120,7.8,41677.28,No
+240,Vikas,57,Pune,IT Engineer,66603,770,HDFC,Home,860450,36,9.6,26195.92,Yes
+241,Nikhil,38,Ahmedabad,Sales Executive,19236,779,Axis,Personal,1749623,36,13.32,55074.24,No
+242,Divya,30,Pune,Teacher,26980,558,Axis,Education,2928771,60,9.33,53367.09,No
+243,Nikhil,44,Pune,Manager,71717,700,Kotak,Car,1219008,36,13.49,38429.23,Yes
+244,Riya,49,Vizag,Manager,22322,702,Canara,Car,2061665,48,13.25,48642.41,No
+245,Manoj,22,Chennai,Doctor,90849,777,Canara,Home,870533,24,10.97,40251.27,Yes
+246,Manoj,56,Ahmedabad,Freelancer,30198,623,ICICI,Car,2515533,240,12.01,11740.2,No
+247,Riya,52,Chennai,Analyst,50059,811,ICICI,Home,836125,36,7.83,25044.27,Yes
+248,Suresh,26,Mumbai,Sales Executive,74114,845,Kotak,Home,3526336,360,11.71,10942.42,Yes
+249,Amit,53,Ahmedabad,Freelancer,59570,650,Yes Bank,Car,1413466,36,11.15,43640.76,No
+250,Riya,51,Delhi,Freelancer,76288,588,ICICI,Education,1094220,24,8.6,49513.46,No
+251,Manoj,45,Mumbai,Clerk,79922,731,SBI,Education,1390500,240,11.3,6448.44,Yes
+252,Priya,39,Kolkata,Business,73705,820,HDFC,Car,109215,24,12.21,5106.26,Yes
+253,Riya,58,Delhi,Manager,17693,630,SBI,Personal,89507,240,9.89,409.83,No
+254,Meena,59,Bangalore,Doctor,51286,632,HDFC,Personal,3418789,24,9.68,156238.66,No
+255,Riya,30,Chennai,Sales Executive,22145,825,Kotak,Home,631608,48,8.4,14263.81,No
+256,Anjali,39,Hyderabad,Student,31411,811,Yes Bank,Personal,578382,120,13.19,5455.59,Yes
+257,Ravi,50,Chennai,Teacher,23434,591,PNB,Home,3784073,360,9.09,11466.79,No
+258,Manoj,59,Hyderabad,Clerk,45672,657,SBI,Personal,1279217,120,10.95,11827.43,No
+259,Amit,49,Delhi,Clerk,74262,680,SBI,Personal,3972775,360,7.51,11864.25,No
+260,Ravi,52,Ahmedabad,Teacher,89592,771,ICICI,Personal,1185501,60,9.13,21562.29,Yes
+261,Kiran,44,Pune,Freelancer,18367,811,ICICI,Home,3349395,12,10.12,307362.81,No
+262,Amit,60,Jaipur,Sales Executive,72663,618,Kotak,Home,2913727,360,12.04,9068.17,No
+263,Neha,36,Pune,Sales Executive,54005,573,HDFC,Education,1184018,48,11.16,27419.88,No
+264,Riya,42,Delhi,Freelancer,83839,557,PNB,Education,1524603,360,12.04,4744.9,No
+265,Neha,27,Bangalore,Business,56365,777,HDFC,Car,2271613,36,9.1,68842.49,Yes
+266,Kiran,36,Jaipur,Freelancer,48953,613,PNB,Home,1076633,60,10.25,19783.13,No
+267,Arjun,60,Mumbai,Business,53697,573,ICICI,Personal,2886877,120,13.47,27297.83,No
+268,Rahul,33,Kolkata,Business,15342,584,Kotak,Home,4122216,120,8.85,37391.93,No
+269,Sita,26,Delhi,Analyst,26905,575,ICICI,Car,2573063,12,7.6,230717.98,No
+270,Kiran,60,Delhi,Sales Executive,28339,769,SBI,Personal,1560777,120,9.65,14261.6,Yes
+271,Priya,25,Jaipur,Clerk,48054,658,Canara,Education,839174,360,12.07,2612.4,No
+272,Manoj,38,Pune,Doctor,77549,833,SBI,Car,601117,24,9.16,27340.8,Yes
+273,Suresh,24,Pune,Manager,58374,795,SBI,Personal,1296492,360,11.19,4004.36,Yes
+274,Kavya,41,Mumbai,Manager,26936,838,HDFC,Car,557720,120,10.59,5139.85,Yes
+275,Nikhil,56,Vizag,Student,17829,742,PNB,Home,1793021,360,10.93,5524.99,No
+276,Rahul,55,Vizag,Sales Executive,54187,728,Kotak,Home,2321783,360,10.79,7145.29,Yes
+277,Nikhil,34,Chennai,Analyst,74092,658,ICICI,Education,729029,240,12.1,3405.17,No
+278,Anjali,28,Mumbai,Analyst,53667,631,Kotak,Home,3556233,120,8.36,32112.78,No
+279,Nikhil,53,Jaipur,Doctor,91254,689,Axis,Education,3831620,120,12.63,35962.95,No
+280,Anjali,49,Ahmedabad,Teacher,71428,845,Yes Bank,Education,2353349,24,13.11,110911.38,Yes
+281,Divya,28,Hyderabad,Teacher,86691,711,Yes Bank,Car,3331952,24,13.27,157254.25,Yes
+282,Priya,45,Kolkata,Doctor,43696,849,Canara,Education,4157206,120,13.02,39153.95,Yes
+283,Manoj,44,Jaipur,Clerk,93050,597,ICICI,Home,875715,120,13.05,8249.97,No
+284,Pooja,58,Kolkata,IT Engineer,26492,651,Axis,Personal,4547803,12,8.77,412220.44,No
+285,Ravi,45,Hyderabad,Sales Executive,16865,757,SBI,Personal,3338721,36,8.69,100801.55,No
+286,Arjun,32,Delhi,Doctor,17996,653,SBI,Car,555828,60,7.6,9967.85,No
+287,Priya,24,Kolkata,Business,74986,796,PNB,Personal,3594252,48,10.44,82697.75,Yes
+288,Amit,52,Hyderabad,Analyst,63873,718,HDFC,Car,1594581,60,7.8,28649.31,Yes
+289,Sneha,56,Delhi,Sales Executive,86549,603,Axis,Education,4855877,360,8.31,14609.45,No
+290,Meena,35,Ahmedabad,Freelancer,67422,555,PNB,Education,4333265,60,13.44,81927.6,No
+291,Riya,40,Bangalore,Clerk,61152,775,ICICI,Home,3862164,240,10.73,17819.06,Yes
+292,Riya,39,Chennai,Student,27863,651,SBI,Personal,1269093,240,10.12,5823.02,No
+293,Rahul,33,Ahmedabad,Freelancer,90692,704,Yes Bank,Car,3605430,240,12.81,16947.02,Yes
+294,Kavya,23,Delhi,Business,88317,577,PNB,Home,635955,60,7.62,11406.91,No
+295,Divya,22,Pune,Freelancer,23104,601,ICICI,Home,431119,36,12.39,13459.3,No
+296,Neha,58,Vizag,Manager,97347,638,Yes Bank,Home,3596815,60,9.91,65887.66,No
+297,Nikhil,37,Mumbai,Manager,19796,791,Axis,Car,2377038,36,10.05,72664.73,No
+298,Anjali,27,Ahmedabad,Clerk,66099,560,Yes Bank,Personal,1638388,48,12.08,38256.36,No
+299,Kiran,29,Chennai,Freelancer,62183,778,SBI,Home,1166129,48,11.63,27119.79,Yes
+300,Riya,57,Hyderabad,Freelancer,55208,712,SBI,Home,3635067,360,7.91,10896.11,Yes
+301,Ravi,36,Kolkata,IT Engineer,90404,786,ICICI,Personal,2865615,120,10.53,26394.7,Yes
+302,Nikhil,48,Pune,Student,75527,800,Kotak,Education,2961971,12,7.64,265688.8,Yes
+303,Anjali,57,Vizag,Teacher,42645,698,Axis,Personal,231756,120,10.83,2140.46,No
+304,Nikhil,35,Jaipur,Sales Executive,38135,748,Canara,Personal,2979620,360,10.28,9127.57,Yes
+305,Divya,29,Bangalore,Doctor,45027,646,Yes Bank,Car,2905363,240,10.13,13331.98,No
+306,Rahul,26,Delhi,Doctor,49426,744,HDFC,Personal,3704423,12,8.68,335497.24,Yes
+307,Riya,30,Mumbai,Sales Executive,74396,811,Yes Bank,Car,3680669,360,8.64,11107.44,Yes
+308,Manoj,30,Pune,Doctor,72603,745,ICICI,Car,150214,48,9.57,3428.95,Yes
+309,Sneha,22,Chennai,Doctor,79037,594,SBI,Education,4472675,24,9.12,203357.62,No
+310,Amit,46,Bangalore,Analyst,73726,636,Yes Bank,Education,2422997,36,12.24,75543.66,No
+311,Neha,54,Chennai,Manager,34567,645,SBI,Education,403443,12,8.6,36511.59,No
+312,Rahul,25,Bangalore,Sales Executive,72764,768,Canara,Car,767354,36,9.87,23419.22,Yes
+313,Pooja,56,Hyderabad,Doctor,49767,786,Canara,Personal,2824581,12,13.06,266122.61,Yes
+314,Nikhil,29,Hyderabad,Clerk,80057,640,ICICI,Personal,3414196,60,7.78,61330.34,No
+315,Vikas,51,Bangalore,Clerk,74317,789,SBI,Education,3500429,240,9.63,15989.67,Yes
+316,Riya,34,Jaipur,Manager,80837,646,ICICI,Home,4158399,120,8.15,37477.57,No
+317,Manoj,59,Kolkata,Doctor,89646,818,HDFC,Education,4632566,360,12.84,14520.52,Yes
+318,Priya,41,Pune,Freelancer,62276,632,Yes Bank,Education,2751186,240,8.39,12425.04,No
+319,Arjun,34,Mumbai,Teacher,96482,610,Yes Bank,Car,3251816,48,8.89,73768.8,No
+320,Arjun,46,Ahmedabad,Doctor,99649,692,Yes Bank,Car,3227249,120,9.35,29408.31,No
+321,Arjun,30,Pune,Clerk,66285,802,Canara,Personal,67489,24,10.88,3117.99,Yes
+322,Rahul,25,Mumbai,Sales Executive,70730,678,Kotak,Car,454476,60,7.72,8159.36,No
+323,Neha,59,Vizag,Freelancer,15463,592,HDFC,Personal,822866,12,8.0,74057.94,No
+324,Rahul,38,Bangalore,Business,37298,694,Canara,Education,3291487,60,11.39,61106.46,No
+325,Priya,46,Kolkata,Manager,56387,624,Axis,Education,1386429,60,7.81,24911.82,No
+326,Vikas,51,Delhi,Freelancer,48523,705,ICICI,Car,1174080,48,11.43,27255.78,Yes
+327,Suresh,54,Delhi,Manager,64174,622,Kotak,Education,1426918,24,11.74,66434.92,No
+328,Vikas,40,Hyderabad,Analyst,48175,752,HDFC,Home,302558,36,12.04,9416.28,Yes
+329,Sneha,28,Chennai,Manager,94223,829,ICICI,Home,2416129,120,8.18,21781.4,Yes
+330,Rahul,39,Jaipur,Teacher,48484,828,Kotak,Education,2813937,120,12.63,26411.14,Yes
+331,Rohit,38,Chennai,IT Engineer,62951,695,Axis,Personal,1769016,120,12.53,16588.95,No
+332,Riya,50,Kolkata,Teacher,31510,648,PNB,Personal,884604,48,11.13,20480.43,No
+333,Divya,51,Mumbai,Manager,82704,845,Canara,Education,1880113,48,10.51,43285.68,Yes
+334,Amit,41,Pune,Student,70434,810,Axis,Car,1111345,48,12.38,26019.36,Yes
+335,Divya,45,Kolkata,Manager,33050,661,Kotak,Education,1873387,36,12.19,58382.02,No
+336,Rohit,54,Bangalore,Teacher,48646,640,Kotak,Personal,4236959,120,9.6,38697.56,No
+337,Meena,33,Chennai,Freelancer,86121,717,Kotak,Personal,2760630,12,12.48,258763.05,Yes
+338,Manoj,53,Hyderabad,Freelancer,84344,784,Canara,Education,3500303,240,10.91,16175.78,Yes
+339,Arjun,60,Ahmedabad,Student,47232,744,HDFC,Education,4154524,48,13.41,98159.28,Yes
+340,Pooja,31,Ahmedabad,Student,63787,664,Canara,Home,2416838,360,8.97,7315.63,No
+341,Anjali,26,Mumbai,Manager,51364,812,PNB,Home,512233,24,7.95,23039.81,Yes
+342,Kiran,43,Delhi,IT Engineer,26597,784,HDFC,Home,4073052,240,11.26,18881.99,Yes
+343,Kiran,39,Mumbai,Business,66312,619,SBI,Personal,1811894,36,11.53,56133.48,No
+344,Sita,47,Vizag,Clerk,26716,641,SBI,Education,4775254,24,8.22,215324.16,No
+345,Kavya,60,Mumbai,Business,35233,844,HDFC,Car,1276241,60,11.45,23706.18,Yes
+346,Anjali,24,Mumbai,Doctor,84661,619,Axis,Personal,114852,24,11.2,5321.48,No
+347,Priya,39,Pune,Student,44055,669,PNB,Car,4070334,60,8.52,73618.77,No
+348,Kavya,49,Vizag,Manager,79912,647,Axis,Education,800724,360,10.75,2463.34,No
+349,Amit,50,Chennai,Student,54517,664,ICICI,Home,2241366,60,8.08,40374.47,No
+350,Arjun,32,Chennai,Business,79624,640,PNB,Education,1531515,36,8.81,46290.04,No
+351,Kiran,57,Pune,IT Engineer,97140,612,Axis,Personal,2363726,120,12.08,22077.2,No
+352,Kavya,40,Hyderabad,IT Engineer,85919,776,Kotak,Personal,273928,60,12.72,5146.19,Yes
+353,Meena,51,Vizag,Sales Executive,40352,683,PNB,Car,2176191,240,11.26,10088.46,No
+354,Anjali,26,Bangalore,Sales Executive,80045,731,Yes Bank,Personal,2232358,36,12.58,69810.8,Yes
+355,Rohit,37,Mumbai,Doctor,60914,696,Canara,Personal,4146676,24,8.49,187447.03,No
+356,Kavya,29,Mumbai,Teacher,37392,658,HDFC,Car,1129247,360,12.59,3531.72,No
+357,Riya,47,Vizag,Analyst,45603,819,Axis,Education,1915619,60,12.99,36074.3,Yes
+358,Kavya,60,Mumbai,Doctor,19646,785,PNB,Personal,1978542,360,9.47,6016.42,No
+359,Sneha,57,Jaipur,Manager,82033,748,ICICI,Home,1080647,36,13.18,33974.34,Yes
+360,Arjun,55,Vizag,IT Engineer,79068,558,HDFC,Education,2726529,12,13.02,256793.59,No
+361,Suresh,41,Vizag,Analyst,79601,581,Yes Bank,Car,1427448,36,12.99,44802.04,No
+362,Manoj,52,Delhi,IT Engineer,63206,725,HDFC,Personal,3179955,48,8.87,72125.35,Yes
+363,Pooja,27,Chennai,Business,86987,701,Yes Bank,Home,4005738,60,9.58,73158.13,Yes
+364,Nikhil,28,Pune,Clerk,77370,794,ICICI,Home,1440189,36,11.22,44493.84,Yes
+365,Anjali,29,Kolkata,Freelancer,84762,580,HDFC,Education,1908583,240,8.09,8595.78,No
+366,Pooja,59,Jaipur,Analyst,76743,754,HDFC,Home,3020258,360,9.23,9163.97,Yes
+367,Sneha,43,Jaipur,Doctor,79451,567,Yes Bank,Home,1414384,12,12.14,132174.18,No
+368,Rohit,41,Hyderabad,Business,21642,819,Kotak,Personal,555368,24,9.82,25412.71,No
+369,Kiran,40,Delhi,Freelancer,19352,561,Kotak,Education,1005229,36,12.45,31399.44,No
+370,Divya,55,Mumbai,Freelancer,38080,617,Yes Bank,Personal,489744,12,7.69,43950.44,No
+371,Amit,52,Kolkata,Student,28933,844,PNB,Home,4822149,120,11.63,44858.04,Yes
+372,Ravi,39,Vizag,Business,78280,834,PNB,Car,4864258,48,7.85,109293.8,Yes
+373,Amit,47,Pune,Sales Executive,69453,609,Axis,Car,4329923,48,10.26,99461.94,No
+374,Kiran,54,Pune,Clerk,98499,570,Axis,Home,4914881,36,12.02,152934.71,No
+375,Pooja,35,Ahmedabad,Doctor,52781,814,Canara,Personal,3936742,60,11.83,73374.31,Yes
+376,Divya,53,Ahmedabad,Clerk,58268,752,Canara,Education,606189,120,11.74,5644.63,Yes
+377,Kavya,23,Vizag,Teacher,43210,692,Axis,Education,371231,24,11.46,17240.59,No
+378,Vikas,52,Ahmedabad,Clerk,58698,759,Axis,Education,3090604,360,9.49,9399.73,Yes
+379,Kiran,48,Mumbai,Sales Executive,53937,561,Kotak,Personal,3611521,36,9.27,109619.69,No
+380,Priya,41,Kolkata,Teacher,18976,612,HDFC,Education,2326461,240,12.25,10881.05,No
+381,Neha,58,Pune,Student,34492,596,Yes Bank,Personal,2755775,36,8.66,83178.48,No
+382,Kavya,31,Delhi,Student,98116,716,PNB,Education,2505945,120,10.37,23048.43,Yes
+383,Arjun,48,Hyderabad,IT Engineer,53660,835,Yes Bank,Education,1902155,48,11.09,44023.0,Yes
+384,Rohit,25,Jaipur,Sales Executive,52929,836,PNB,Car,1880525,60,9.97,34466.89,Yes
+385,Kiran,42,Mumbai,Student,30263,815,SBI,Home,3708295,24,11.37,172080.34,Yes
+386,Pooja,58,Ahmedabad,Teacher,92337,698,Canara,Car,4370245,48,13.46,103301.67,No
+387,Riya,40,Hyderabad,Analyst,63701,763,HDFC,Car,2704497,360,12.98,8487.61,Yes
+388,Divya,55,Chennai,Business,46939,770,Kotak,Car,4607920,60,12.49,86390.82,Yes
+389,Kiran,27,Mumbai,Doctor,98625,716,Axis,Education,2325559,60,11.19,43096.48,Yes
+390,Sneha,39,Jaipur,Sales Executive,54560,637,Yes Bank,Car,1123102,60,9.65,20524.69,No
+391,Suresh,24,Kolkata,Manager,97063,555,Axis,Car,3651428,12,12.28,341651.95,No
+392,Nikhil,32,Hyderabad,IT Engineer,89067,693,PNB,Home,2671660,24,10.35,122840.7,No
+393,Pooja,50,Jaipur,Teacher,26257,574,Canara,Personal,3057680,120,8.65,27684.74,No
+394,Rohit,43,Pune,Clerk,23792,821,Axis,Personal,3545285,240,12.95,16685.0,No
+395,Rahul,54,Delhi,Freelancer,93098,718,PNB,Education,895687,120,8.51,8099.25,Yes
+396,Amit,31,Hyderabad,Manager,70890,678,ICICI,Personal,3271545,120,8.96,29705.63,No
+397,Ravi,37,Ahmedabad,Analyst,32740,808,Yes Bank,Car,2938905,240,9.37,13392.83,Yes
+398,Manoj,44,Ahmedabad,Teacher,36256,720,Yes Bank,Home,4019309,120,9.95,36826.92,Yes
+399,Riya,34,Vizag,Sales Executive,68345,811,Yes Bank,Education,4890125,120,10.43,45001.38,Yes
+400,Kiran,38,Ahmedabad,Sales Executive,49157,774,Yes Bank,Car,4800531,36,8.45,144616.0,Yes
+401,Arjun,28,Hyderabad,Analyst,21449,655,PNB,Home,3099268,240,11.23,14363.82,No
+402,Riya,44,Mumbai,Clerk,52467,814,Yes Bank,Home,807854,36,13.31,25427.2,Yes
+403,Vikas,43,Hyderabad,Doctor,81649,576,HDFC,Education,2154544,360,8.21,6476.2,No
+404,Neha,41,Pune,Business,80709,714,Yes Bank,Home,3828427,36,9.25,116182.12,Yes
+405,Sneha,29,Pune,IT Engineer,47079,723,ICICI,Personal,4250780,12,7.78,381790.89,Yes
+406,Meena,41,Kolkata,IT Engineer,32003,669,Canara,Car,4306763,36,12.18,134203.52,No
+407,Meena,56,Mumbai,Sales Executive,72727,803,Kotak,Home,1060019,36,10.82,32630.92,Yes
+408,Sneha,40,Hyderabad,Doctor,50940,708,Kotak,Car,126442,24,8.02,5690.94,Yes
+409,Kiran,44,Jaipur,Freelancer,57693,582,Canara,Personal,187273,36,12.94,5875.17,No
+410,Divya,53,Vizag,Freelancer,96474,753,ICICI,Education,798414,48,13.09,18810.97,Yes
+411,Riya,58,Delhi,Manager,17693,736,HDFC,Education,2418594,240,12.19,11305.92,No
+412,Nikhil,58,Pune,Analyst,69568,610,PNB,Car,1038054,360,13.4,3269.87,No
+413,Pooja,49,Pune,Teacher,24578,656,Canara,Car,3796430,12,10.67,350125.76,No
+414,Neha,50,Kolkata,Freelancer,82532,595,Kotak,Car,2838593,360,8.21,8532.34,No
+415,Kavya,47,Pune,Doctor,16274,810,HDFC,Home,1747133,240,11.14,8090.68,No
+416,Divya,44,Mumbai,Teacher,29559,597,Kotak,Car,1855654,360,9.63,5650.98,No
+417,Nikhil,54,Mumbai,IT Engineer,30669,577,HDFC,Education,1033494,12,10.38,95064.22,No
+418,Riya,47,Kolkata,Student,49383,805,Kotak,Education,4019690,120,9.86,36800.26,Yes
+419,Rohit,37,Jaipur,Freelancer,79397,842,PNB,Personal,3865376,36,9.97,118076.5,Yes
+420,Manoj,34,Chennai,IT Engineer,53514,575,Kotak,Home,4907542,120,7.96,44151.52,No
+421,Pooja,45,Kolkata,Teacher,18423,729,PNB,Personal,4880503,24,12.8,229383.64,No
+422,Vikas,27,Kolkata,Teacher,95195,561,Canara,Education,3591798,48,11.85,83696.38,No
+423,Sneha,35,Mumbai,Student,98243,796,SBI,Home,4179053,48,8.8,94725.2,Yes
+424,Divya,51,Jaipur,Doctor,79518,659,ICICI,Home,1738279,36,8.36,52322.2,No
+425,Vikas,46,Bangalore,IT Engineer,44242,816,SBI,Car,1319305,240,8.55,5967.11,Yes
+426,Nikhil,21,Delhi,Freelancer,31186,791,PNB,Home,2853431,24,7.87,128249.83,Yes
+427,Riya,34,Hyderabad,Doctor,63097,848,Yes Bank,Personal,1209023,24,9.48,55151.6,Yes
+428,Suresh,57,Hyderabad,Freelancer,96351,572,Axis,Personal,4040632,36,12.06,125775.89,No
+429,Kavya,37,Kolkata,Doctor,66282,720,PNB,Car,3485244,48,12.61,81765.28,Yes
+430,Rahul,58,Chennai,Teacher,91044,719,Axis,Car,2773478,48,11.05,64165.57,Yes
+431,Meena,50,Pune,Business,27139,553,SBI,Personal,69534,36,12.9,2180.66,No
+432,Arjun,36,Pune,Business,98975,796,Kotak,Car,3536524,12,7.6,317108.32,Yes
+433,Sneha,31,Jaipur,Analyst,20381,578,PNB,Education,4442017,12,11.45,412552.33,No
+434,Meena,32,Chennai,Business,29111,559,PNB,Car,4202017,48,12.06,98099.59,No
+435,Arjun,42,Vizag,Teacher,49269,711,PNB,Home,4121682,120,10.65,38005.34,Yes
+436,Rahul,52,Delhi,Sales Executive,72193,729,Axis,Education,1539567,60,13.28,29067.02,Yes
+437,Ravi,28,Hyderabad,Analyst,92921,570,Kotak,Personal,4985126,360,11.29,15410.96,No
+438,Riya,53,Pune,Student,64345,593,Axis,Home,2761481,12,13.24,260591.76,No
+439,Riya,42,Jaipur,Manager,96196,779,Canara,Home,460639,240,12.79,2164.81,Yes
+440,Kavya,29,Kolkata,Student,66336,653,Yes Bank,Home,657557,360,11.58,2038.06,No
+441,Sita,24,Mumbai,Clerk,98311,579,HDFC,Personal,476182,24,10.52,21928.18,No
+442,Kiran,48,Vizag,Manager,29160,754,Canara,Car,585111,120,8.4,5285.5,Yes
+443,Arjun,30,Ahmedabad,Analyst,49096,731,SBI,Personal,2029883,36,13.1,63772.16,Yes
+444,Divya,45,Ahmedabad,Business,30690,623,ICICI,Education,898864,120,8.17,8102.51,No
+445,Rahul,40,Mumbai,Sales Executive,16942,825,Axis,Personal,1760827,360,7.96,5280.52,No
+446,Riya,55,Hyderabad,Manager,96392,705,HDFC,Car,4927746,60,10.38,90654.1,Yes
+447,Priya,59,Kolkata,IT Engineer,81473,770,Axis,Education,3723794,120,8.29,33604.14,Yes
+448,Divya,47,Bangalore,Student,97202,668,Axis,Personal,4326146,48,13.29,102106.06,No
+449,Rahul,29,Delhi,Student,65329,707,SBI,Education,933381,360,8.54,2814.14,Yes
+450,Meena,32,Hyderabad,IT Engineer,54023,600,Yes Bank,Home,3629736,24,8.91,164714.39,No
+451,Meena,51,Jaipur,IT Engineer,93934,707,Yes Bank,Car,328832,360,10.03,1005.04,Yes
+452,Rohit,45,Chennai,Doctor,79261,654,PNB,Education,2716801,24,7.92,122165.48,No
+453,Sita,60,Jaipur,Sales Executive,65839,664,Axis,Personal,2318380,240,11.12,10734.1,No
+454,Anjali,46,Delhi,Freelancer,74980,811,Kotak,Education,4851830,24,11.46,225327.07,Yes
+455,Rohit,44,Delhi,Doctor,38843,650,Yes Bank,Education,521805,12,8.91,47358.15,No
+456,Suresh,57,Pune,Doctor,79673,634,PNB,Car,3369879,240,11.29,15626.41,No
+457,Anjali,22,Kolkata,Doctor,87336,714,ICICI,Home,430467,360,8.98,1303.12,Yes
+458,Anjali,53,Bangalore,IT Engineer,61324,696,Canara,Personal,1926177,12,12.29,180242.01,No
+459,Riya,35,Delhi,Teacher,82023,632,PNB,Car,1972560,360,11.51,6110.0,No
+460,Pooja,25,Bangalore,Manager,23886,558,Canara,Education,2047887,240,10.48,9427.11,No
+461,Suresh,54,Jaipur,Sales Executive,73414,645,ICICI,Home,1010773,360,8.32,3041.3,No
+462,Divya,57,Delhi,Analyst,41822,716,SBI,Personal,4349709,360,9.79,13265.4,Yes
+463,Suresh,60,Hyderabad,Analyst,47302,629,SBI,Education,2934505,48,12.94,69046.46,No
+464,Suresh,43,Kolkata,Analyst,40677,760,Canara,Car,1949909,360,9.7,5941.81,Yes
+465,Sita,34,Jaipur,Clerk,50151,724,Yes Bank,Home,1343545,12,10.26,123449.39,Yes
+466,Rahul,46,Pune,Teacher,98301,643,PNB,Personal,4731171,240,9.78,21641.16,No
+467,Suresh,27,Delhi,Analyst,85718,642,HDFC,Personal,4031254,120,12.32,37732.54,No
+468,Amit,21,Jaipur,Student,77333,782,Axis,Home,4411004,360,8.87,13339.61,Yes
+469,Vikas,50,Mumbai,IT Engineer,68534,683,SBI,Car,3094424,240,8.06,13932.64,No
+470,Nikhil,41,Ahmedabad,Analyst,80670,637,HDFC,Home,3970323,60,10.35,73020.86,No
+471,Amit,28,Mumbai,IT Engineer,31269,786,SBI,Car,3415595,24,9.62,156007.3,Yes
+472,Priya,47,Jaipur,Sales Executive,74624,791,Axis,Personal,1470711,48,13.08,34647.5,Yes
+473,Rahul,34,Kolkata,Business,34239,746,Yes Bank,Home,844242,12,11.46,78416.01,Yes
+474,Divya,55,Pune,Business,78675,757,Yes Bank,Personal,2027017,60,12.95,38158.6,Yes
+475,Sneha,33,Mumbai,Teacher,81937,764,HDFC,Car,3123922,12,10.54,287765.28,Yes
+476,Kiran,35,Hyderabad,Clerk,95972,600,PNB,Personal,2606304,24,10.02,119477.32,No
+477,Riya,29,Pune,Sales Executive,79066,703,SBI,Personal,2754836,12,8.98,250185.02,Yes
+478,Neha,22,Hyderabad,Sales Executive,46433,714,PNB,Personal,2115926,120,10.92,19558.21,Yes
+479,Kavya,47,Pune,Student,19829,836,Canara,Home,2491962,12,7.56,223362.86,No
+480,Priya,48,Delhi,Freelancer,45533,771,HDFC,Car,2096995,48,9.91,48016.82,Yes
+481,Nikhil,59,Vizag,Freelancer,28854,716,SBI,Personal,4572940,48,8.07,102957.84,Yes
+482,Suresh,35,Jaipur,Freelancer,96699,557,PNB,Education,4236440,36,13.04,133024.22,No
+483,Neha,44,Chennai,Business,35109,558,HDFC,Car,3486110,360,8.78,10533.86,No
+484,Manoj,34,Pune,Freelancer,59231,600,Yes Bank,Education,1972845,360,11.65,6118.56,No
+485,Anjali,37,Pune,Manager,90696,741,Yes Bank,Car,2609632,240,7.7,11710.72,Yes
+486,Manoj,47,Pune,Clerk,89865,622,SBI,Home,3745732,120,7.92,33686.62,No
+487,Divya,45,Jaipur,Analyst,98138,585,Axis,Car,4566434,360,11.53,14147.07,No
+488,Ravi,23,Kolkata,Analyst,76973,692,ICICI,Personal,1867300,120,11.02,17275.64,No
+489,Manoj,36,Kolkata,Freelancer,41667,712,Axis,Education,2969386,120,10.64,27377.74,Yes
+490,Priya,36,Mumbai,Clerk,62065,700,Axis,Home,3327485,120,11.57,30937.29,Yes
+491,Suresh,55,Chennai,Teacher,27637,747,Axis,Personal,2592713,24,12.54,121576.63,Yes
+492,Amit,36,Hyderabad,Clerk,54701,824,PNB,Personal,855930,240,10.89,3954.75,Yes
+493,Priya,58,Hyderabad,Doctor,15635,752,Axis,Education,339628,12,9.18,30900.49,No
+494,Arjun,25,Mumbai,Freelancer,41367,696,Kotak,Education,4410783,120,9.77,40347.64,No
+495,Sita,45,Kolkata,Sales Executive,59302,623,Axis,Education,357215,12,10.1,32774.48,No
+496,Arjun,26,Bangalore,Student,87714,760,Kotak,Home,1361109,240,10.77,6282.09,Yes
+497,Nikhil,55,Pune,Clerk,93915,698,Axis,Education,863909,12,7.57,77442.24,No
+498,Arjun,34,Pune,Business,96233,570,PNB,Home,917023,24,8.8,41571.71,No
+499,Kavya,35,Vizag,Sales Executive,48544,569,SBI,Personal,369778,12,8.65,33480.32,No
+500,Neha,48,Jaipur,Analyst,32862,618,Yes Bank,Car,1186404,360,11.04,3659.4,No

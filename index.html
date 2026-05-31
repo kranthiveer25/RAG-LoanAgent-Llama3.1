@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kranthi AI Chat</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #162a72;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            background: #0f1f5c;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0; font-size: 26px; }
+        .header p { margin: 5px 0 0; font-size: 14px; opacity: 0.8; }
+        .chat-container {
+            width: 60%;
+            max-width: 900px;
+            flex: 1;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            min-height: 400px;
+            max-height: 65vh;
+        }
+        .message {
+            max-width: 65%;
+            padding: 14px 20px;
+            margin: 10px 0;
+            border-radius: 25px;
+            font-size: 15px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .user {
+            background: #1e90ff;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        .bot {
+            background: #17c964;
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        .input-container {
+            display: flex;
+            padding: 15px;
+            background: rgba(0,0,0,0.25);
+            border-radius: 50px;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 14px;
+            border-radius: 30px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+        button {
+            margin-left: 10px;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: none;
+            background: #1e90ff;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background: #187bcd; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        .footer {
+            background: #0f1f5c;
+            color: white;
+            text-align: center;
+            padding: 15px 10px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .footer p { margin: 0; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1>🤖 Kranthi AI Assistant</h1>
+    <p>Your Personal AI Chatbot</p>
+</header>
+
+<div class="chat-container">
+    <div id="chatBox" class="chat-box"></div>
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="Type your message..." />
+        <button id="sendBtn" onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>
+        © 2026 Kranthi Veer. All Rights Reserved.<br>
+        Designed & Developed by Kranthi Veer
+    </p>
+</footer>
+
+<script>
+    const CSV_DATA = `Loan Customer Records:
+ID: 1, Name: Manoj, Age: 41, City: Pune, Job: Manager, Income: 92364, CIBIL: 695, Bank: HDFC, Loan: Education, Amount: 835784, Tenure: 24 months, EMI: 38766.45, Eligible: No
+ID: 2, Name: Anjali, Age: 23, City: Jaipur, Job: Teacher, Income: 85525, CIBIL: 593, Bank: PNB, Loan: Car, Amount: 1106970, Tenure: 24 months, EMI: 50971.36, Eligible: No
+ID: 3, Name: Sita, Age: 60, City: Bangalore, Job: IT Engineer, Income: 50009, CIBIL: 768, Bank: SBI, Loan: Car, Amount: 3807665, Tenure: 240 months, EMI: 17572.37, Eligible: Yes
+ID: 4, Name: Pooja, Age: 27, City: Jaipur, Job: Student, Income: 43805, CIBIL: 821, Bank: HDFC, Loan: Home, Amount: 2892278, Tenure: 48 months, EMI: 67637.13, Eligible: Yes
+ID: 5, Name: Nikhil, Age: 51, City: Hyderabad, Job: Business, Income: 35107, CIBIL: 603, Bank: Axis, Loan: Personal, Amount: 642027, Tenure: 360 months, EMI: 1990.64, Eligible: No
+ID: 6, Name: Meena, Age: 53, City: Hyderabad, Job: Doctor, Income: 18418, CIBIL: 557, Bank: SBI, Loan: Car, Amount: 1440221, Tenure: 12 months, EMI: 132716.37, Eligible: No
+ID: 7, Name: Manoj, Age: 23, City: Mumbai, Job: Student, Income: 25534, CIBIL: 697, Bank: ICICI, Loan: Home, Amount: 3526202, Tenure: 36 months, EMI: 108822.51, Eligible: No
+ID: 8, Name: Kavya, Age: 31, City: Delhi, Job: Analyst, Income: 71937, CIBIL: 630, Bank: Axis, Loan: Home, Amount: 1615535, Tenure: 36 months, EMI: 49354.59, Eligible: No
+ID: 9, Name: Anjali, Age: 41, City: Pune, Job: Doctor, Income: 80605, CIBIL: 581, Bank: Kotak, Loan: Home, Amount: 2174942, Tenure: 12 months, EMI: 202831.47, Eligible: No
+ID: 10, Name: Riya, Age: 49, City: Delhi, Job: Sales Executive, Income: 51250, CIBIL: 784, Bank: Axis, Loan: Home, Amount: 1304151, Tenure: 120 months, EMI: 11690.63, Eligible: Yes
+ID: 11, Name: Suresh, Age: 22, City: Hyderabad, Job: Teacher, Income: 89745, CIBIL: 709, Bank: Kotak, Loan: Home, Amount: 2253867, Tenure: 12 months, EMI: 209196.42, Eligible: Yes
+ID: 12, Name: Vikas, Age: 25, City: Delhi, Job: Doctor, Income: 18506, CIBIL: 690, Bank: Kotak, Loan: Car, Amount: 4414029, Tenure: 60 months, EMI: 79857.14, Eligible: No
+ID: 13, Name: Divya, Age: 22, City: Vizag, Job: Analyst, Income: 30165, CIBIL: 678, Bank: PNB, Loan: Home, Amount: 683976, Tenure: 120 months, EMI: 6209.36, Eligible: No
+ID: 14, Name: Anjali, Age: 30, City: Chennai, Job: Doctor, Income: 22650, CIBIL: 779, Bank: ICICI, Loan: Personal, Amount: 2004112, Tenure: 360 months, EMI: 5999.53, Eligible: No
+ID: 15, Name: Nikhil, Age: 50, City: Hyderabad, Job: Teacher, Income: 48763, CIBIL: 751, Bank: SBI, Loan: Car, Amount: 732988, Tenure: 24 months, EMI: 34184.73, Eligible: Yes
+ID: 16, Name: Suresh, Age: 60, City: Delhi, Job: Student, Income: 87302, CIBIL: 821, Bank: Axis, Loan: Car, Amount: 1892800, Tenure: 120 months, EMI: 17486.32, Eligible: Yes
+ID: 17, Name: Ravi, Age: 51, City: Ahmedabad, Job: Analyst, Income: 30834, CIBIL: 708, Bank: Yes Bank, Loan: Car, Amount: 3696025, Tenure: 240 months, EMI: 16732.21, Eligible: Yes
+ID: 18, Name: Pooja, Age: 26, City: Bangalore, Job: Freelancer, Income: 90034, CIBIL: 848, Bank: Axis, Loan: Home, Amount: 1148130, Tenure: 360 months, EMI: 3514.23, Eligible: Yes
+ID: 19, Name: Anjali, Age: 46, City: Chennai, Job: Manager, Income: 82622, CIBIL: 584, Bank: ICICI, Loan: Car, Amount: 4032428, Tenure: 240 months, EMI: 18159.37, Eligible: No
+ID: 20, Name: Meena, Age: 30, City: Mumbai, Job: Teacher, Income: 60937, CIBIL: 816, Bank: Canara, Loan: Education, Amount: 2125039, Tenure: 120 months, EMI: 20078.08, Eligible: Yes
+ID: 21, Name: Rahul, Age: 21, City: Chennai, Job: IT Engineer, Income: 81981, CIBIL: 800, Bank: Canara, Loan: Home, Amount: 794781, Tenure: 360 months, EMI: 2502.46, Eligible: Yes
+ID: 22, Name: Vikas, Age: 58, City: Chennai, Job: Clerk, Income: 89356, CIBIL: 821, Bank: SBI, Loan: Car, Amount: 4806255, Tenure: 120 months, EMI: 44085.37, Eligible: Yes
+ID: 23, Name: Ravi, Age: 25, City: Vizag, Job: Doctor, Income: 84399, CIBIL: 808, Bank: ICICI, Loan: Home, Amount: 1961024, Tenure: 120 months, EMI: 17690.07, Eligible: Yes
+ID: 24, Name: Priya, Age: 21, City: Jaipur, Job: Sales Executive, Income: 47641, CIBIL: 675, Bank: Canara, Loan: Home, Amount: 1728158, Tenure: 36 months, EMI: 54206.56, Eligible: No
+ID: 25, Name: Kiran, Age: 57, City: Pune, Job: Analyst, Income: 96070, CIBIL: 625, Bank: HDFC, Loan: Personal, Amount: 1822042, Tenure: 36 months, EMI: 55901.26, Eligible: No
+ID: 26, Name: Priya, Age: 52, City: Jaipur, Job: Teacher, Income: 46104, CIBIL: 841, Bank: Canara, Loan: Personal, Amount: 1923844, Tenure: 120 months, EMI: 17500.57, Eligible: Yes
+ID: 27, Name: Arjun, Age: 48, City: Pune, Job: Teacher, Income: 97665, CIBIL: 575, Bank: Kotak, Loan: Personal, Amount: 1669364, Tenure: 360 months, EMI: 5155.09, Eligible: No
+ID: 28, Name: Priya, Age: 43, City: Delhi, Job: Business, Income: 61976, CIBIL: 756, Bank: Yes Bank, Loan: Home, Amount: 3211050, Tenure: 60 months, EMI: 58906.71, Eligible: Yes
+ID: 29, Name: Kavya, Age: 50, City: Hyderabad, Job: Student, Income: 55647, CIBIL: 685, Bank: Yes Bank, Loan: Personal, Amount: 948576, Tenure: 60 months, EMI: 17439.57, Eligible: No
+ID: 30, Name: Rohit, Age: 36, City: Jaipur, Job: Manager, Income: 91835, CIBIL: 766, Bank: PNB, Loan: Personal, Amount: 2408901, Tenure: 24 months, EMI: 111913.53, Eligible: Yes
+ID: 31, Name: Ravi, Age: 49, City: Hyderabad, Job: Teacher, Income: 18956, CIBIL: 624, Bank: Yes Bank, Loan: Education, Amount: 140286, Tenure: 240 months, EMI: 646.37, Eligible: No
+ID: 32, Name: Kavya, Age: 55, City: Bangalore, Job: Clerk, Income: 68620, CIBIL: 716, Bank: Kotak, Loan: Car, Amount: 496436, Tenure: 36 months, EMI: 15339.87, Eligible: Yes
+ID: 33, Name: Arjun, Age: 55, City: Kolkata, Job: Student, Income: 42145, CIBIL: 687, Bank: ICICI, Loan: Personal, Amount: 314427, Tenure: 12 months, EMI: 28827.72, Eligible: No
+ID: 34, Name: Anjali, Age: 21, City: Bangalore, Job: Manager, Income: 77563, CIBIL: 612, Bank: ICICI, Loan: Car, Amount: 786199, Tenure: 120 months, EMI: 7383.72, Eligible: No
+ID: 35, Name: Divya, Age: 27, City: Kolkata, Job: Teacher, Income: 40549, CIBIL: 664, Bank: ICICI, Loan: Education, Amount: 2759647, Tenure: 360 months, EMI: 8641.53, Eligible: No
+ID: 36, Name: Meena, Age: 39, City: Pune, Job: IT Engineer, Income: 56841, CIBIL: 745, Bank: Yes Bank, Loan: Home, Amount: 223245, Tenure: 60 months, EMI: 4209.66, Eligible: Yes
+ID: 37, Name: Manoj, Age: 26, City: Delhi, Job: Analyst, Income: 75099, CIBIL: 767, Bank: PNB, Loan: Car, Amount: 4007334, Tenure: 48 months, EMI: 94147.3, Eligible: Yes
+ID: 38, Name: Pooja, Age: 27, City: Vizag, Job: Doctor, Income: 86782, CIBIL: 820, Bank: Axis, Loan: Personal, Amount: 450112, Tenure: 60 months, EMI: 8296.31, Eligible: Yes
+ID: 39, Name: Sneha, Age: 39, City: Chennai, Job: Freelancer, Income: 42596, CIBIL: 714, Bank: HDFC, Loan: Car, Amount: 346393, Tenure: 240 months, EMI: 1626.32, Eligible: Yes
+ID: 40, Name: Rahul, Age: 32, City: Mumbai, Job: Manager, Income: 34989, CIBIL: 808, Bank: PNB, Loan: Car, Amount: 865758, Tenure: 48 months, EMI: 19517.43, Eligible: Yes
+ID: 41, Name: Neha, Age: 38, City: Ahmedabad, Job: Business, Income: 83698, CIBIL: 594, Bank: HDFC, Loan: Home, Amount: 2006767, Tenure: 12 months, EMI: 186361.76, Eligible: No
+ID: 42, Name: Pooja, Age: 36, City: Chennai, Job: Student, Income: 43892, CIBIL: 834, Bank: Kotak, Loan: Education, Amount: 2170267, Tenure: 60 months, EMI: 39365.03, Eligible: Yes
+ID: 43, Name: Divya, Age: 32, City: Mumbai, Job: Business, Income: 30485, CIBIL: 741, Bank: Canara, Loan: Personal, Amount: 1230763, Tenure: 36 months, EMI: 38211.77, Eligible: Yes
+ID: 44, Name: Riya, Age: 28, City: Delhi, Job: Freelancer, Income: 22680, CIBIL: 599, Bank: PNB, Loan: Home, Amount: 4011328, Tenure: 12 months, EMI: 377198.54, Eligible: No
+ID: 45, Name: Neha, Age: 57, City: Ahmedabad, Job: IT Engineer, Income: 40724, CIBIL: 792, Bank: Yes Bank, Loan: Home, Amount: 2537623, Tenure: 24 months, EMI: 114869.73, Eligible: Yes
+ID: 46, Name: Amit, Age: 25, City: Pune, Job: IT Engineer, Income: 86764, CIBIL: 683, Bank: Axis, Loan: Car, Amount: 4978024, Tenure: 60 months, EMI: 94092.95, Eligible: No
+ID: 47, Name: Riya, Age: 39, City: Ahmedabad, Job: Manager, Income: 63589, CIBIL: 651, Bank: Axis, Loan: Personal, Amount: 2463687, Tenure: 240 months, EMI: 11245.7, Eligible: No
+ID: 48, Name: Manoj, Age: 21, City: Pune, Job: Teacher, Income: 95534, CIBIL: 729, Bank: Kotak, Loan: Personal, Amount: 3551685, Tenure: 48 months, EMI: 83605.19, Eligible: Yes
+ID: 49, Name: Divya, Age: 39, City: Vizag, Job: IT Engineer, Income: 49120, CIBIL: 655, Bank: Canara, Loan: Personal, Amount: 3995330, Tenure: 120 months, EMI: 35871.4, Eligible: No
+ID: 50, Name: Suresh, Age: 35, City: Bangalore, Job: Manager, Income: 57644, CIBIL: 657, Bank: Yes Bank, Loan: Education, Amount: 2149424, Tenure: 12 months, EMI: 203192.22, Eligible: No
+ID: 51, Name: Sneha, Age: 29, City: Delhi, Job: Teacher, Income: 56751, CIBIL: 725, Bank: Axis, Loan: Car, Amount: 3835158, Tenure: 36 months, EMI: 117132.12, Eligible: Yes
+ID: 52, Name: Ravi, Age: 50, City: Kolkata, Job: Doctor, Income: 51722, CIBIL: 798, Bank: HDFC, Loan: Car, Amount: 4658655, Tenure: 360 months, EMI: 14461.24, Eligible: Yes
+ID: 53, Name: Sita, Age: 23, City: Bangalore, Job: IT Engineer, Income: 50606, CIBIL: 811, Bank: Canara, Loan: Education, Amount: 2926193, Tenure: 12 months, EMI: 267917.35, Eligible: Yes
+ID: 54, Name: Ravi, Age: 45, City: Jaipur, Job: Manager, Income: 61210, CIBIL: 575, Bank: Canara, Loan: Personal, Amount: 3444678, Tenure: 360 months, EMI: 10508.18, Eligible: No
+ID: 55, Name: Riya, Age: 39, City: Pune, Job: Business, Income: 26316, CIBIL: 789, Bank: Canara, Loan: Car, Amount: 320796, Tenure: 12 months, EMI: 28914.41, Eligible: Yes
+ID: 56, Name: Priya, Age: 27, City: Chennai, Job: Manager, Income: 66123, CIBIL: 684, Bank: Yes Bank, Loan: Home, Amount: 1408067, Tenure: 60 months, EMI: 25931.9, Eligible: No
+ID: 57, Name: Pooja, Age: 50, City: Hyderabad, Job: Analyst, Income: 65546, CIBIL: 580, Bank: Kotak, Loan: Education, Amount: 2888944, Tenure: 24 months, EMI: 133842.37, Eligible: No
+ID: 58, Name: Sneha, Age: 46, City: Pune, Job: Sales Executive, Income: 44692, CIBIL: 800, Bank: SBI, Loan: Car, Amount: 4135304, Tenure: 120 months, EMI: 37552.01, Eligible: Yes
+ID: 59, Name: Sneha, Age: 27, City: Jaipur, Job: Analyst, Income: 15592, CIBIL: 687, Bank: Yes Bank, Loan: Car, Amount: 2539486, Tenure: 24 months, EMI: 117493.55, Eligible: No
+ID: 60, Name: Sita, Age: 35, City: Pune, Job: Manager, Income: 97000, CIBIL: 556, Bank: Kotak, Loan: Home, Amount: 3436430, Tenure: 360 months, EMI: 10407.61, Eligible: No
+ID: 61, Name: Rohit, Age: 21, City: Jaipur, Job: Analyst, Income: 36218, CIBIL: 846, Bank: Canara, Loan: Home, Amount: 1240172, Tenure: 48 months, EMI: 28614.39, Eligible: Yes
+ID: 62, Name: Kavya, Age: 28, City: Ahmedabad, Job: Analyst, Income: 95657, CIBIL: 800, Bank: Canara, Loan: Personal, Amount: 2357615, Tenure: 12 months, EMI: 218374.09, Eligible: Yes
+ID: 63, Name: Nikhil, Age: 46, City: Delhi, Job: Student, Income: 30150, CIBIL: 677, Bank: HDFC, Loan: Home, Amount: 542040, Tenure: 36 months, EMI: 16914.66, Eligible: No
+ID: 64, Name: Kavya, Age: 31, City: Ahmedabad, Job: Student, Income: 97587, CIBIL: 849, Bank: Kotak, Loan: Education, Amount: 698919, Tenure: 120 months, EMI: 6591.39, Eligible: Yes
+ID: 65, Name: Arjun, Age: 23, City: Bangalore, Job: Analyst, Income: 33530, CIBIL: 800, Bank: Yes Bank, Loan: Personal, Amount: 4812313, Tenure: 36 months, EMI: 144529.8, Eligible: Yes
+ID: 66, Name: Suresh, Age: 27, City: Hyderabad, Job: IT Engineer, Income: 61259, CIBIL: 662, Bank: Kotak, Loan: Home, Amount: 4874150, Tenure: 240 months, EMI: 21990.54, Eligible: No
+ID: 67, Name: Manoj, Age: 32, City: Pune, Job: Manager, Income: 85062, CIBIL: 736, Bank: SBI, Loan: Home, Amount: 4932603, Tenure: 240 months, EMI: 22283.03, Eligible: Yes
+ID: 68, Name: Manoj, Age: 32, City: Ahmedabad, Job: Sales Executive, Income: 91720, CIBIL: 617, Bank: Kotak, Loan: Personal, Amount: 3581297, Tenure: 60 months, EMI: 66510.65, Eligible: No
+ID: 69, Name: Rohit, Age: 40, City: Bangalore, Job: Clerk, Income: 16360, CIBIL: 639, Bank: Yes Bank, Loan: Personal, Amount: 4409894, Tenure: 24 months, EMI: 208385.87, Eligible: No
+ID: 70, Name: Anjali, Age: 21, City: Ahmedabad, Job: Manager, Income: 44601, CIBIL: 651, Bank: Yes Bank, Loan: Car, Amount: 2599182, Tenure: 24 months, EMI: 122031.59, Eligible: No
+ID: 71, Name: Amit, Age: 60, City: Mumbai, Job: Sales Executive, Income: 32209, CIBIL: 830, Bank: Kotak, Loan: Personal, Amount: 2006779, Tenure: 12 months, EMI: 180024.8, Eligible: Yes
+ID: 72, Name: Nikhil, Age: 58, City: Ahmedabad, Job: Business, Income: 27719, CIBIL: 660, Bank: Kotak, Loan: Education, Amount: 3100167, Tenure: 120 months, EMI: 28066.85, Eligible: No
+ID: 73, Name: Ravi, Age: 60, City: Ahmedabad, Job: Freelancer, Income: 65774, CIBIL: 561, Bank: Axis, Loan: Personal, Amount: 3445333, Tenure: 24 months, EMI: 160595.58, Eligible: No
+ID: 74, Name: Riya, Age: 36, City: Hyderabad, Job: Analyst, Income: 49892, CIBIL: 838, Bank: Axis, Loan: Home, Amount: 2432184, Tenure: 240 months, EMI: 11407.96, Eligible: Yes
+ID: 75, Name: Kavya, Age: 39, City: Kolkata, Job: Teacher, Income: 19806, CIBIL: 621, Bank: Axis, Loan: Car, Amount: 919046, Tenure: 120 months, EMI: 8517.26, Eligible: No
+ID: 76, Name: Suresh, Age: 21, City: Jaipur, Job: Teacher, Income: 86131, CIBIL: 737, Bank: HDFC, Loan: Personal, Amount: 4325552, Tenure: 360 months, EMI: 13375.57, Eligible: Yes
+ID: 77, Name: Sneha, Age: 58, City: Chennai, Job: Teacher, Income: 53217, CIBIL: 836, Bank: ICICI, Loan: Car, Amount: 4716855, Tenure: 120 months, EMI: 43257.49, Eligible: Yes
+ID: 78, Name: Nikhil, Age: 26, City: Chennai, Job: Student, Income: 72282, CIBIL: 760, Bank: SBI, Loan: Home, Amount: 195042, Tenure: 36 months, EMI: 5852.89, Eligible: Yes
+ID: 79, Name: Sita, Age: 36, City: Kolkata, Job: Doctor, Income: 53706, CIBIL: 567, Bank: SBI, Loan: Personal, Amount: 1289917, Tenure: 36 months, EMI: 39410.55, Eligible: No
+ID: 80, Name: Rahul, Age: 27, City: Pune, Job: Freelancer, Income: 16562, CIBIL: 579, Bank: Kotak, Loan: Home, Amount: 2041892, Tenure: 36 months, EMI: 61846.64, Eligible: No
+ID: 81, Name: Amit, Age: 29, City: Vizag, Job: Business, Income: 54022, CIBIL: 781, Bank: ICICI, Loan: Personal, Amount: 3532078, Tenure: 48 months, EMI: 82643.27, Eligible: Yes
+ID: 82, Name: Sneha, Age: 42, City: Vizag, Job: Analyst, Income: 55313, CIBIL: 677, Bank: PNB, Loan: Personal, Amount: 3739632, Tenure: 36 months, EMI: 114339.25, Eligible: No
+ID: 83, Name: Manoj, Age: 36, City: Pune, Job: Analyst, Income: 53652, CIBIL: 756, Bank: Yes Bank, Loan: Car, Amount: 4707847, Tenure: 48 months, EMI: 106721.01, Eligible: Yes
+ID: 84, Name: Kiran, Age: 55, City: Delhi, Job: Student, Income: 94383, CIBIL: 808, Bank: Kotak, Loan: Education, Amount: 2819600, Tenure: 360 months, EMI: 8441.57, Eligible: Yes
+ID: 85, Name: Neha, Age: 55, City: Jaipur, Job: IT Engineer, Income: 20863, CIBIL: 577, Bank: ICICI, Loan: Car, Amount: 3196492, Tenure: 24 months, EMI: 146798.9, Eligible: No
+ID: 86, Name: Sita, Age: 45, City: Pune, Job: Student, Income: 76826, CIBIL: 791, Bank: Kotak, Loan: Education, Amount: 4545469, Tenure: 48 months, EMI: 102007.9, Eligible: Yes
+ID: 87, Name: Arjun, Age: 22, City: Ahmedabad, Job: Doctor, Income: 90971, CIBIL: 569, Bank: HDFC, Loan: Home, Amount: 2879280, Tenure: 48 months, EMI: 64783.8, Eligible: No
+ID: 88, Name: Amit, Age: 42, City: Vizag, Job: Doctor, Income: 17901, CIBIL: 628, Bank: PNB, Loan: Home, Amount: 247544, Tenure: 12 months, EMI: 22852.44, Eligible: No
+ID: 89, Name: Nikhil, Age: 37, City: Chennai, Job: Freelancer, Income: 42320, CIBIL: 655, Bank: ICICI, Loan: Education, Amount: 4352933, Tenure: 60 months, EMI: 80224.56, Eligible: No
+ID: 90, Name: Rohit, Age: 49, City: Kolkata, Job: Analyst, Income: 58056, CIBIL: 788, Bank: Yes Bank, Loan: Car, Amount: 3841638, Tenure: 24 months, EMI: 179772.65, Eligible: Yes
+ID: 91, Name: Pooja, Age: 41, City: Kolkata, Job: Business, Income: 54718, CIBIL: 619, Bank: Kotak, Loan: Education, Amount: 2406163, Tenure: 48 months, EMI: 53913.09, Eligible: No
+ID: 92, Name: Divya, Age: 34, City: Ahmedabad, Job: Student, Income: 50037, CIBIL: 569, Bank: HDFC, Loan: Education, Amount: 4476108, Tenure: 36 months, EMI: 138722.05, Eligible: No
+ID: 93, Name: Meena, Age: 24, City: Bangalore, Job: IT Engineer, Income: 79545, CIBIL: 827, Bank: PNB, Loan: Car, Amount: 3373885, Tenure: 36 months, EMI: 104506.09, Eligible: Yes
+ID: 94, Name: Kavya, Age: 44, City: Ahmedabad, Job: Freelancer, Income: 57724, CIBIL: 700, Bank: ICICI, Loan: Personal, Amount: 1102997, Tenure: 36 months, EMI: 34517.68, Eligible: Yes
+ID: 95, Name: Sneha, Age: 30, City: Hyderabad, Job: Analyst, Income: 98268, CIBIL: 710, Bank: PNB, Loan: Personal, Amount: 3162504, Tenure: 12 months, EMI: 285837.65, Eligible: Yes
+ID: 96, Name: Amit, Age: 44, City: Kolkata, Job: Student, Income: 93187, CIBIL: 555, Bank: HDFC, Loan: Education, Amount: 3759376, Tenure: 240 months, EMI: 17557.85, Eligible: No
+ID: 97, Name: Vikas, Age: 39, City: Ahmedabad, Job: Student, Income: 97491, CIBIL: 840, Bank: ICICI, Loan: Personal, Amount: 1211367, Tenure: 120 months, EMI: 10917.45, Eligible: Yes
+ID: 98, Name: Riya, Age: 40, City: Kolkata, Job: Student, Income: 18088, CIBIL: 679, Bank: PNB, Loan: Personal, Amount: 659856, Tenure: 48 months, EMI: 15431.01, Eligible: No
+ID: 99, Name: Kavya, Age: 24, City: Hyderabad, Job: Freelancer, Income: 68978, CIBIL: 848, Bank: Yes Bank, Loan: Education, Amount: 1396122, Tenure: 24 months, EMI: 64297.24, Eligible: Yes
+ID: 100, Name: Kavya, Age: 22, City: Kolkata, Job: Doctor, Income: 86425, CIBIL: 807, Bank: Yes Bank, Loan: Car, Amount: 2807406, Tenure: 60 months, EMI: 51922.97, Eligible: Yes
+ID: 101, Name: Rahul, Age: 24, City: Delhi, Job: Student, Income: 89273, CIBIL: 671, Bank: SBI, Loan: Education, Amount: 2776589, Tenure: 48 months, EMI: 64428.43, Eligible: No
+ID: 102, Name: Kavya, Age: 39, City: Pune, Job: Student, Income: 91516, CIBIL: 830, Bank: HDFC, Loan: Personal, Amount: 1265774, Tenure: 24 months, EMI: 56812.16, Eligible: Yes
+ID: 103, Name: Amit, Age: 32, City: Chennai, Job: Manager, Income: 28012, CIBIL: 794, Bank: SBI, Loan: Personal, Amount: 98673, Tenure: 60 months, EMI: 1799.8, Eligible: Yes
+ID: 104, Name: Suresh, Age: 25, City: Mumbai, Job: Freelancer, Income: 50015, CIBIL: 571, Bank: ICICI, Loan: Home, Amount: 2101071, Tenure: 60 months, EMI: 38449.6, Eligible: No
+ID: 105, Name: Sneha, Age: 36, City: Delhi, Job: Doctor, Income: 94300, CIBIL: 703, Bank: SBI, Loan: Home, Amount: 2023397, Tenure: 60 months, EMI: 37709.38, Eligible: Yes
+ID: 106, Name: Vikas, Age: 39, City: Pune, Job: Teacher, Income: 23224, CIBIL: 575, Bank: Kotak, Loan: Home, Amount: 2597264, Tenure: 60 months, EMI: 46936.89, Eligible: No
+ID: 107, Name: Anjali, Age: 24, City: Chennai, Job: IT Engineer, Income: 97143, CIBIL: 804, Bank: Axis, Loan: Personal, Amount: 1096832, Tenure: 36 months, EMI: 34397.87, Eligible: Yes
+ID: 108, Name: Manoj, Age: 47, City: Bangalore, Job: Clerk, Income: 80399, CIBIL: 607, Bank: Yes Bank, Loan: Car, Amount: 742684, Tenure: 120 months, EMI: 7020.22, Eligible: No
+ID: 109, Name: Nikhil, Age: 42, City: Vizag, Job: Freelancer, Income: 54617, CIBIL: 562, Bank: Canara, Loan: Education, Amount: 4900313, Tenure: 360 months, EMI: 15328.45, Eligible: No
+ID: 110, Name: Vikas, Age: 54, City: Hyderabad, Job: Business, Income: 77169, CIBIL: 577, Bank: Kotak, Loan: Education, Amount: 1044679, Tenure: 36 months, EMI: 32367.64, Eligible: No
+ID: 111, Name: Manoj, Age: 54, City: Bangalore, Job: Sales Executive, Income: 93670, CIBIL: 844, Bank: Axis, Loan: Education, Amount: 4071371, Tenure: 240 months, EMI: 19218.57, Eligible: Yes
+ID: 112, Name: Divya, Age: 24, City: Mumbai, Job: IT Engineer, Income: 65255, CIBIL: 634, Bank: ICICI, Loan: Car, Amount: 3217513, Tenure: 120 months, EMI: 30070.34, Eligible: No
+ID: 113, Name: Riya, Age: 27, City: Chennai, Job: Sales Executive, Income: 61746, CIBIL: 850, Bank: Canara, Loan: Car, Amount: 828463, Tenure: 48 months, EMI: 18557.57, Eligible: Yes
+ID: 114, Name: Kiran, Age: 24, City: Delhi, Job: Analyst, Income: 89564, CIBIL: 646, Bank: Canara, Loan: Personal, Amount: 4182959, Tenure: 360 months, EMI: 13106.6, Eligible: No
+ID: 115, Name: Divya, Age: 47, City: Bangalore, Job: Clerk, Income: 24274, CIBIL: 765, Bank: ICICI, Loan: Home, Amount: 4522874, Tenure: 240 months, EMI: 21285.78, Eligible: No
+ID: 116, Name: Neha, Age: 50, City: Mumbai, Job: Clerk, Income: 35684, CIBIL: 589, Bank: Kotak, Loan: Education, Amount: 319629, Tenure: 48 months, EMI: 7321.5, Eligible: No
+ID: 117, Name: Priya, Age: 30, City: Hyderabad, Job: Manager, Income: 98163, CIBIL: 736, Bank: Canara, Loan: Personal, Amount: 1270187, Tenure: 48 months, EMI: 28613.61, Eligible: Yes
+ID: 118, Name: Anjali, Age: 23, City: Delhi, Job: Manager, Income: 63608, CIBIL: 846, Bank: Canara, Loan: Personal, Amount: 1981704, Tenure: 48 months, EMI: 46755.83, Eligible: Yes
+ID: 119, Name: Suresh, Age: 27, City: Ahmedabad, Job: IT Engineer, Income: 72196, CIBIL: 599, Bank: ICICI, Loan: Education, Amount: 1774205, Tenure: 48 months, EMI: 40145.08, Eligible: No
+ID: 120, Name: Pooja, Age: 31, City: Mumbai, Job: Freelancer, Income: 63554, CIBIL: 572, Bank: ICICI, Loan: Education, Amount: 2015688, Tenure: 24 months, EMI: 94132.63, Eligible: No
+ID: 121, Name: Ravi, Age: 29, City: Delhi, Job: IT Engineer, Income: 66475, CIBIL: 819, Bank: Canara, Loan: Home, Amount: 362264, Tenure: 24 months, EMI: 16372.82, Eligible: Yes
+ID: 122, Name: Nikhil, Age: 53, City: Chennai, Job: Business, Income: 34751, CIBIL: 758, Bank: Kotak, Loan: Personal, Amount: 3890175, Tenure: 360 months, EMI: 12215.15, Eligible: Yes
+ID: 123, Name: Vikas, Age: 47, City: Jaipur, Job: Analyst, Income: 19446, CIBIL: 819, Bank: ICICI, Loan: Home, Amount: 1256844, Tenure: 48 months, EMI: 28284.23, Eligible: No
+ID: 124, Name: Sita, Age: 22, City: Ahmedabad, Job: Freelancer, Income: 64541, CIBIL: 742, Bank: ICICI, Loan: Personal, Amount: 3029950, Tenure: 360 months, EMI: 9047.77, Eligible: Yes
+ID: 125, Name: Meena, Age: 35, City: Kolkata, Job: Business, Income: 95442, CIBIL: 716, Bank: SBI, Loan: Car, Amount: 4714070, Tenure: 36 months, EMI: 147262.31, Eligible: Yes
+ID: 126, Name: Priya, Age: 36, City: Ahmedabad, Job: IT Engineer, Income: 56828, CIBIL: 636, Bank: Yes Bank, Loan: Education, Amount: 3427571, Tenure: 60 months, EMI: 62473.19, Eligible: No
+ID: 127, Name: Sneha, Age: 38, City: Kolkata, Job: Freelancer, Income: 28392, CIBIL: 817, Bank: Canara, Loan: Home, Amount: 1081845, Tenure: 240 months, EMI: 5078.36, Eligible: Yes
+ID: 128, Name: Vikas, Age: 59, City: Mumbai, Job: Clerk, Income: 64205, CIBIL: 731, Bank: Canara, Loan: Car, Amount: 3224231, Tenure: 48 months, EMI: 74607.36, Eligible: Yes
+ID: 129, Name: Arjun, Age: 37, City: Ahmedabad, Job: Teacher, Income: 74086, CIBIL: 743, Bank: HDFC, Loan: Home, Amount: 1280952, Tenure: 240 months, EMI: 6037.55, Eligible: Yes
+ID: 130, Name: Sita, Age: 49, City: Delhi, Job: Doctor, Income: 59830, CIBIL: 697, Bank: SBI, Loan: Car, Amount: 4716214, Tenure: 360 months, EMI: 14793.19, Eligible: No
+ID: 131, Name: Vikas, Age: 23, City: Hyderabad, Job: Teacher, Income: 72943, CIBIL: 812, Bank: PNB, Loan: Personal, Amount: 789103, Tenure: 60 months, EMI: 14314.33, Eligible: Yes
+ID: 132, Name: Rahul, Age: 51, City: Ahmedabad, Job: Doctor, Income: 47836, CIBIL: 724, Bank: Canara, Loan: Home, Amount: 511015, Tenure: 48 months, EMI: 11736.31, Eligible: Yes
+ID: 133, Name: Divya, Age: 34, City: Chennai, Job: Doctor, Income: 36135, CIBIL: 585, Bank: ICICI, Loan: Education, Amount: 551490, Tenure: 24 months, EMI: 25005.48, Eligible: No
+ID: 134, Name: Ravi, Age: 48, City: Ahmedabad, Job: Business, Income: 45984, CIBIL: 820, Bank: PNB, Loan: Home, Amount: 638875, Tenure: 12 months, EMI: 59463.29, Eligible: Yes
+ID: 135, Name: Divya, Age: 39, City: Hyderabad, Job: Business, Income: 41332, CIBIL: 639, Bank: PNB, Loan: Home, Amount: 4215425, Tenure: 60 months, EMI: 77268.74, Eligible: No
+ID: 136, Name: Nikhil, Age: 40, City: Vizag, Job: Analyst, Income: 65645, CIBIL: 833, Bank: Yes Bank, Loan: Education, Amount: 2092321, Tenure: 36 months, EMI: 63653.05, Eligible: Yes
+ID: 137, Name: Divya, Age: 42, City: Kolkata, Job: Teacher, Income: 51894, CIBIL: 841, Bank: SBI, Loan: Car, Amount: 3659817, Tenure: 36 months, EMI: 111471.93, Eligible: Yes
+ID: 138, Name: Sita, Age: 42, City: Chennai, Job: IT Engineer, Income: 34450, CIBIL: 658, Bank: SBI, Loan: Education, Amount: 3021607, Tenure: 360 months, EMI: 9212.54, Eligible: No
+ID: 139, Name: Riya, Age: 47, City: Jaipur, Job: Freelancer, Income: 80137, CIBIL: 835, Bank: HDFC, Loan: Personal, Amount: 3565569, Tenure: 240 months, EMI: 16308.02, Eligible: Yes
+ID: 140, Name: Rohit, Age: 28, City: Jaipur, Job: Business, Income: 68790, CIBIL: 797, Bank: Axis, Loan: Personal, Amount: 929631, Tenure: 360 months, EMI: 2880.56, Eligible: Yes
+ID: 141, Name: Suresh, Age: 51, City: Bangalore, Job: Freelancer, Income: 46468, CIBIL: 786, Bank: Axis, Loan: Education, Amount: 2770846, Tenure: 12 months, EMI: 259974.63, Eligible: Yes
+ID: 142, Name: Ravi, Age: 47, City: Delhi, Job: IT Engineer, Income: 76427, CIBIL: 645, Bank: Canara, Loan: Home, Amount: 4887422, Tenure: 360 months, EMI: 14869.98, Eligible: No
+ID: 143, Name: Rahul, Age: 25, City: Ahmedabad, Job: IT Engineer, Income: 42945, CIBIL: 621, Bank: Axis, Loan: Car, Amount: 647532, Tenure: 12 months, EMI: 59238.39, Eligible: No
+ID: 144, Name: Manoj, Age: 21, City: Jaipur, Job: Clerk, Income: 31432, CIBIL: 740, Bank: Yes Bank, Loan: Home, Amount: 2427709, Tenure: 240 months, EMI: 11032.93, Eligible: Yes
+ID: 145, Name: Neha, Age: 51, City: Hyderabad, Job: Student, Income: 26663, CIBIL: 602, Bank: PNB, Loan: Personal, Amount: 2701221, Tenure: 12 months, EMI: 251281.08, Eligible: No
+ID: 146, Name: Rohit, Age: 36, City: Chennai, Job: Student, Income: 73266, CIBIL: 698, Bank: Kotak, Loan: Education, Amount: 4693627, Tenure: 12 months, EMI: 426768.03, Eligible: No
+ID: 147, Name: Pooja, Age: 40, City: Chennai, Job: Sales Executive, Income: 55877, CIBIL: 649, Bank: HDFC, Loan: Home, Amount: 3273338, Tenure: 240 months, EMI: 15055.99, Eligible: No
+ID: 148, Name: Riya, Age: 31, City: Chennai, Job: Analyst, Income: 56623, CIBIL: 796, Bank: HDFC, Loan: Education, Amount: 3703019, Tenure: 60 months, EMI: 69684.65, Eligible: Yes
+ID: 149, Name: Ravi, Age: 23, City: Bangalore, Job: Student, Income: 74266, CIBIL: 551, Bank: HDFC, Loan: Education, Amount: 4206717, Tenure: 120 months, EMI: 38025.22, Eligible: No
+ID: 150, Name: Manoj, Age: 43, City: Delhi, Job: Freelancer, Income: 59434, CIBIL: 629, Bank: Axis, Loan: Home, Amount: 2696775, Tenure: 36 months, EMI: 82663.64, Eligible: No
+ID: 151, Name: Ravi, Age: 40, City: Vizag, Job: Student, Income: 64109, CIBIL: 557, Bank: ICICI, Loan: Car, Amount: 721741, Tenure: 36 months, EMI: 22167.47, Eligible: No
+ID: 152, Name: Nikhil, Age: 23, City: Delhi, Job: Clerk, Income: 48156, CIBIL: 719, Bank: PNB, Loan: Personal, Amount: 3646838, Tenure: 48 months, EMI: 85054.9, Eligible: Yes
+ID: 153, Name: Rahul, Age: 56, City: Jaipur, Job: Freelancer, Income: 81571, CIBIL: 676, Bank: Kotak, Loan: Car, Amount: 4752659, Tenure: 240 months, EMI: 21521.62, Eligible: No
+ID: 154, Name: Rahul, Age: 55, City: Bangalore, Job: Student, Income: 72398, CIBIL: 662, Bank: SBI, Loan: Personal, Amount: 4905164, Tenure: 360 months, EMI: 14761.82, Eligible: No
+ID: 155, Name: Ravi, Age: 31, City: Kolkata, Job: Doctor, Income: 19418, CIBIL: 622, Bank: Canara, Loan: Education, Amount: 1118861, Tenure: 120 months, EMI: 10097.72, Eligible: No
+ID: 156, Name: Meena, Age: 37, City: Vizag, Job: IT Engineer, Income: 86776, CIBIL: 717, Bank: Kotak, Loan: Education, Amount: 1894515, Tenure: 36 months, EMI: 57098.58, Eligible: Yes
+ID: 157, Name: Riya, Age: 40, City: Delhi, Job: Manager, Income: 71393, CIBIL: 827, Bank: Canara, Loan: Personal, Amount: 1345499, Tenure: 60 months, EMI: 24976.95, Eligible: Yes
+ID: 158, Name: Ravi, Age: 58, City: Bangalore, Job: Analyst, Income: 45488, CIBIL: 820, Bank: Kotak, Loan: Education, Amount: 4443446, Tenure: 48 months, EMI: 100107.14, Eligible: Yes
+ID: 159, Name: Neha, Age: 49, City: Mumbai, Job: Sales Executive, Income: 23084, CIBIL: 772, Bank: Canara, Loan: Home, Amount: 1844654, Tenure: 120 months, EMI: 16775.59, Eligible: No
+ID: 160, Name: Sita, Age: 52, City: Delhi, Job: Doctor, Income: 60803, CIBIL: 608, Bank: Yes Bank, Loan: Home, Amount: 1403639, Tenure: 360 months, EMI: 4253.03, Eligible: No
+ID: 161, Name: Kavya, Age: 21, City: Jaipur, Job: Analyst, Income: 15616, CIBIL: 613, Bank: SBI, Loan: Car, Amount: 4247481, Tenure: 120 months, EMI: 39636.08, Eligible: No
+ID: 162, Name: Vikas, Age: 58, City: Mumbai, Job: Analyst, Income: 52642, CIBIL: 596, Bank: Axis, Loan: Personal, Amount: 654736, Tenure: 36 months, EMI: 20284.09, Eligible: No
+ID: 163, Name: Neha, Age: 60, City: Bangalore, Job: Freelancer, Income: 94878, CIBIL: 726, Bank: SBI, Loan: Education, Amount: 1805970, Tenure: 36 months, EMI: 55924.87, Eligible: Yes
+ID: 164, Name: Manoj, Age: 30, City: Kolkata, Job: Sales Executive, Income: 30981, CIBIL: 772, Bank: ICICI, Loan: Car, Amount: 3154363, Tenure: 48 months, EMI: 72550.35, Eligible: Yes
+ID: 165, Name: Sita, Age: 28, City: Vizag, Job: IT Engineer, Income: 55231, CIBIL: 699, Bank: Kotak, Loan: Personal, Amount: 993820, Tenure: 360 months, EMI: 3118.94, Eligible: No
+ID: 166, Name: Pooja, Age: 40, City: Kolkata, Job: IT Engineer, Income: 64620, CIBIL: 621, Bank: Axis, Loan: Personal, Amount: 478840, Tenure: 360 months, EMI: 1460.99, Eligible: No
+ID: 167, Name: Neha, Age: 40, City: Ahmedabad, Job: Teacher, Income: 20672, CIBIL: 589, Bank: Kotak, Loan: Personal, Amount: 4259291, Tenure: 24 months, EMI: 192289.24, Eligible: No
+ID: 168, Name: Priya, Age: 43, City: Kolkata, Job: Manager, Income: 45480, CIBIL: 725, Bank: HDFC, Loan: Education, Amount: 262843, Tenure: 240 months, EMI: 1199.22, Eligible: Yes
+ID: 169, Name: Kavya, Age: 51, City: Delhi, Job: Analyst, Income: 61685, CIBIL: 634, Bank: Kotak, Loan: Personal, Amount: 1197419, Tenure: 36 months, EMI: 36082.23, Eligible: No
+ID: 170, Name: Vikas, Age: 26, City: Chennai, Job: IT Engineer, Income: 32285, CIBIL: 666, Bank: HDFC, Loan: Personal, Amount: 461717, Tenure: 24 months, EMI: 21471.76, Eligible: No
+ID: 171, Name: Pooja, Age: 37, City: Delhi, Job: Business, Income: 94090, CIBIL: 788, Bank: SBI, Loan: Personal, Amount: 4554593, Tenure: 48 months, EMI: 104926.44, Eligible: Yes
+ID: 172, Name: Suresh, Age: 27, City: Kolkata, Job: Business, Income: 48701, CIBIL: 846, Bank: PNB, Loan: Personal, Amount: 1664163, Tenure: 12 months, EMI: 149816.27, Eligible: Yes
+ID: 173, Name: Meena, Age: 35, City: Bangalore, Job: Student, Income: 61595, CIBIL: 710, Bank: SBI, Loan: Car, Amount: 1675323, Tenure: 48 months, EMI: 38357.92, Eligible: Yes
+ID: 174, Name: Rahul, Age: 45, City: Vizag, Job: Analyst, Income: 77963, CIBIL: 633, Bank: Canara, Loan: Personal, Amount: 528241, Tenure: 36 months, EMI: 16241.94, Eligible: No
+ID: 175, Name: Amit, Age: 50, City: Mumbai, Job: IT Engineer, Income: 26115, CIBIL: 651, Bank: Canara, Loan: Education, Amount: 2998086, Tenure: 12 months, EMI: 280920.66, Eligible: No
+ID: 176, Name: Meena, Age: 31, City: Chennai, Job: Clerk, Income: 67825, CIBIL: 651, Bank: Yes Bank, Loan: Car, Amount: 4358092, Tenure: 48 months, EMI: 102914.53, Eligible: No
+ID: 177, Name: Vikas, Age: 37, City: Ahmedabad, Job: Doctor, Income: 98562, CIBIL: 560, Bank: ICICI, Loan: Personal, Amount: 3452626, Tenure: 12 months, EMI: 312290.02, Eligible: No
+ID: 178, Name: Kiran, Age: 56, City: Mumbai, Job: IT Engineer, Income: 90907, CIBIL: 590, Bank: PNB, Loan: Car, Amount: 2009073, Tenure: 360 months, EMI: 6107.02, Eligible: No
+ID: 179, Name: Arjun, Age: 48, City: Hyderabad, Job: IT Engineer, Income: 85778, CIBIL: 578, Bank: Canara, Loan: Education, Amount: 933093, Tenure: 12 months, EMI: 87251.97, Eligible: No
+ID: 180, Name: Kavya, Age: 31, City: Mumbai, Job: Sales Executive, Income: 97505, CIBIL: 598, Bank: SBI, Loan: Personal, Amount: 932038, Tenure: 48 months, EMI: 21965.03, Eligible: No
+ID: 181, Name: Neha, Age: 49, City: Kolkata, Job: Clerk, Income: 51649, CIBIL: 809, Bank: PNB, Loan: Car, Amount: 1175501, Tenure: 12 months, EMI: 106598.35, Eligible: Yes
+ID: 182, Name: Manoj, Age: 21, City: Pune, Job: Doctor, Income: 88173, CIBIL: 722, Bank: Canara, Loan: Personal, Amount: 1725394, Tenure: 12 months, EMI: 162560.87, Eligible: Yes
+ID: 183, Name: Pooja, Age: 46, City: Pune, Job: Student, Income: 70813, CIBIL: 568, Bank: SBI, Loan: Home, Amount: 168276, Tenure: 12 months, EMI: 15630.04, Eligible: No
+ID: 184, Name: Anjali, Age: 60, City: Bangalore, Job: Sales Executive, Income: 64858, CIBIL: 677, Bank: HDFC, Loan: Education, Amount: 318989, Tenure: 36 months, EMI: 9897.52, Eligible: No
+ID: 185, Name: Sneha, Age: 43, City: Jaipur, Job: Student, Income: 54094, CIBIL: 692, Bank: Canara, Loan: Car, Amount: 76474, Tenure: 60 months, EMI: 1429.68, Eligible: No
+ID: 186, Name: Neha, Age: 22, City: Vizag, Job: IT Engineer, Income: 87578, CIBIL: 693, Bank: Axis, Loan: Home, Amount: 829702, Tenure: 120 months, EMI: 7780.53, Eligible: No
+ID: 187, Name: Sita, Age: 30, City: Vizag, Job: Doctor, Income: 89295, CIBIL: 817, Bank: Canara, Loan: Car, Amount: 4830341, Tenure: 12 months, EMI: 439520.78, Eligible: Yes
+ID: 188, Name: Rahul, Age: 23, City: Ahmedabad, Job: Teacher, Income: 78659, CIBIL: 736, Bank: HDFC, Loan: Education, Amount: 1105611, Tenure: 24 months, EMI: 50171.71, Eligible: Yes
+ID: 189, Name: Nikhil, Age: 45, City: Pune, Job: IT Engineer, Income: 98822, CIBIL: 827, Bank: SBI, Loan: Home, Amount: 435750, Tenure: 24 months, EMI: 20140.73, Eligible: Yes
+ID: 190, Name: Rohit, Age: 57, City: Chennai, Job: Clerk, Income: 58000, CIBIL: 726, Bank: Axis, Loan: Car, Amount: 4064031, Tenure: 24 months, EMI: 188723.44, Eligible: Yes
+ID: 191, Name: Divya, Age: 28, City: Jaipur, Job: Clerk, Income: 69743, CIBIL: 759, Bank: Axis, Loan: Home, Amount: 2488449, Tenure: 24 months, EMI: 112280.89, Eligible: Yes
+ID: 192, Name: Priya, Age: 45, City: Chennai, Job: IT Engineer, Income: 65771, CIBIL: 590, Bank: ICICI, Loan: Personal, Amount: 1959573, Tenure: 12 months, EMI: 182828.16, Eligible: No
+ID: 193, Name: Sita, Age: 35, City: Hyderabad, Job: IT Engineer, Income: 41639, CIBIL: 713, Bank: PNB, Loan: Education, Amount: 1383255, Tenure: 48 months, EMI: 31166.46, Eligible: Yes
+ID: 194, Name: Priya, Age: 30, City: Delhi, Job: Business, Income: 55022, CIBIL: 719, Bank: Canara, Loan: Education, Amount: 525794, Tenure: 240 months, EMI: 2410.55, Eligible: Yes
+ID: 195, Name: Kavya, Age: 26, City: Bangalore, Job: Doctor, Income: 58624, CIBIL: 714, Bank: HDFC, Loan: Car, Amount: 3721940, Tenure: 48 months, EMI: 85496.06, Eligible: Yes
+ID: 196, Name: Manoj, Age: 31, City: Vizag, Job: Doctor, Income: 16785, CIBIL: 703, Bank: Kotak, Loan: Personal, Amount: 3510588, Tenure: 120 months, EMI: 32829.85, Eligible: No
+ID: 197, Name: Kavya, Age: 51, City: Hyderabad, Job: Business, Income: 24030, CIBIL: 554, Bank: HDFC, Loan: Personal, Amount: 1515330, Tenure: 12 months, EMI: 139372.48, Eligible: No
+ID: 198, Name: Sneha, Age: 37, City: Pune, Job: Manager, Income: 61581, CIBIL: 659, Bank: Kotak, Loan: Education, Amount: 3877858, Tenure: 12 months, EMI: 363032.14, Eligible: No
+ID: 199, Name: Sita, Age: 54, City: Chennai, Job: Teacher, Income: 19691, CIBIL: 799, Bank: Canara, Loan: Personal, Amount: 2447299, Tenure: 12 months, EMI: 225029.14, Eligible: No
+ID: 200, Name: Priya, Age: 53, City: Vizag, Job: Analyst, Income: 15163, CIBIL: 621, Bank: HDFC, Loan: Car, Amount: 2053186, Tenure: 36 months, EMI: 61692.54, Eligible: No
+ID: 201, Name: Divya, Age: 50, City: Hyderabad, Job: Teacher, Income: 56158, CIBIL: 841, Bank: Axis, Loan: Car, Amount: 3175926, Tenure: 240 months, EMI: 14269.17, Eligible: Yes
+ID: 202, Name: Rohit, Age: 37, City: Kolkata, Job: Sales Executive, Income: 73694, CIBIL: 680, Bank: Axis, Loan: Education, Amount: 1136639, Tenure: 240 months, EMI: 5300.53, Eligible: No
+ID: 203, Name: Neha, Age: 26, City: Mumbai, Job: Analyst, Income: 95150, CIBIL: 553, Bank: Kotak, Loan: Personal, Amount: 1801788, Tenure: 48 months, EMI: 40450.14, Eligible: No
+ID: 204, Name: Priya, Age: 22, City: Mumbai, Job: Analyst, Income: 80025, CIBIL: 753, Bank: ICICI, Loan: Education, Amount: 4578499, Tenure: 36 months, EMI: 140636.23, Eligible: Yes
+ID: 205, Name: Ravi, Age: 59, City: Jaipur, Job: Manager, Income: 75824, CIBIL: 760, Bank: Axis, Loan: Education, Amount: 2307318, Tenure: 60 months, EMI: 42220.07, Eligible: Yes
+ID: 206, Name: Amit, Age: 50, City: Bangalore, Job: Analyst, Income: 89522, CIBIL: 692, Bank: ICICI, Loan: Home, Amount: 151405, Tenure: 360 months, EMI: 452.62, Eligible: No
+ID: 207, Name: Kiran, Age: 36, City: Chennai, Job: Freelancer, Income: 72282, CIBIL: 714, Bank: Canara, Loan: Home, Amount: 4385805, Tenure: 60 months, EMI: 80625.72, Eligible: Yes
+ID: 208, Name: Anjali, Age: 43, City: Jaipur, Job: Manager, Income: 76726, CIBIL: 713, Bank: Yes Bank, Loan: Car, Amount: 4704782, Tenure: 48 months, EMI: 107180.81, Eligible: Yes
+ID: 209, Name: Meena, Age: 33, City: Kolkata, Job: Teacher, Income: 81360, CIBIL: 601, Bank: ICICI, Loan: Car, Amount: 537728, Tenure: 24 months, EMI: 24887.84, Eligible: No
+ID: 210, Name: Ravi, Age: 36, City: Chennai, Job: Clerk, Income: 68548, CIBIL: 826, Bank: HDFC, Loan: Car, Amount: 1981544, Tenure: 12 months, EMI: 185555.08, Eligible: Yes
+ID: 211, Name: Vikas, Age: 58, City: Jaipur, Job: Sales Executive, Income: 81316, CIBIL: 644, Bank: PNB, Loan: Personal, Amount: 888833, Tenure: 240 months, EMI: 4188.26, Eligible: No
+ID: 212, Name: Kavya, Age: 47, City: Jaipur, Job: Doctor, Income: 64899, CIBIL: 780, Bank: PNB, Loan: Car, Amount: 1861202, Tenure: 24 months, EMI: 86987.93, Eligible: Yes
+ID: 213, Name: Suresh, Age: 23, City: Vizag, Job: Teacher, Income: 31574, CIBIL: 790, Bank: Yes Bank, Loan: Home, Amount: 2844990, Tenure: 120 months, EMI: 25630.99, Eligible: Yes
+ID: 214, Name: Kavya, Age: 49, City: Hyderabad, Job: Doctor, Income: 97682, CIBIL: 780, Bank: Canara, Loan: Home, Amount: 2883283, Tenure: 48 months, EMI: 65462.54, Eligible: Yes
+ID: 215, Name: Pooja, Age: 55, City: Pune, Job: Sales Executive, Income: 30543, CIBIL: 591, Bank: PNB, Loan: Car, Amount: 3199281, Tenure: 120 months, EMI: 29577.35, Eligible: No
+ID: 216, Name: Manoj, Age: 43, City: Delhi, Job: Student, Income: 21330, CIBIL: 595, Bank: PNB, Loan: Personal, Amount: 1916056, Tenure: 36 months, EMI: 57843.6, Eligible: No
+ID: 217, Name: Ravi, Age: 32, City: Pune, Job: Sales Executive, Income: 30778, CIBIL: 745, Bank: Kotak, Loan: Car, Amount: 1597930, Tenure: 240 months, EMI: 7166.72, Eligible: Yes
+ID: 218, Name: Amit, Age: 52, City: Ahmedabad, Job: Doctor, Income: 18795, CIBIL: 600, Bank: Kotak, Loan: Education, Amount: 2264555, Tenure: 48 months, EMI: 51815.85, Eligible: No
+ID: 219, Name: Kiran, Age: 46, City: Ahmedabad, Job: Analyst, Income: 46106, CIBIL: 848, Bank: Kotak, Loan: Car, Amount: 1919907, Tenure: 360 months, EMI: 5856.78, Eligible: Yes
+ID: 220, Name: Neha, Age: 56, City: Bangalore, Job: Doctor, Income: 57086, CIBIL: 729, Bank: Kotak, Loan: Home, Amount: 3122597, Tenure: 60 months, EMI: 56092.25, Eligible: Yes
+ID: 221, Name: Meena, Age: 50, City: Bangalore, Job: Teacher, Income: 94641, CIBIL: 701, Bank: Yes Bank, Loan: Personal, Amount: 4708871, Tenure: 48 months, EMI: 110315.11, Eligible: Yes
+ID: 222, Name: Divya, Age: 60, City: Vizag, Job: IT Engineer, Income: 33669, CIBIL: 697, Bank: PNB, Loan: Education, Amount: 1063514, Tenure: 60 months, EMI: 19680.33, Eligible: No
+ID: 223, Name: Suresh, Age: 41, City: Hyderabad, Job: IT Engineer, Income: 39729, CIBIL: 823, Bank: Canara, Loan: Home, Amount: 2904843, Tenure: 48 months, EMI: 67622.32, Eligible: Yes
+ID: 224, Name: Rahul, Age: 24, City: Chennai, Job: Clerk, Income: 80786, CIBIL: 624, Bank: PNB, Loan: Home, Amount: 550090, Tenure: 48 months, EMI: 12351.81, Eligible: No
+ID: 225, Name: Arjun, Age: 46, City: Ahmedabad, Job: Sales Executive, Income: 65125, CIBIL: 772, Bank: Yes Bank, Loan: Education, Amount: 1116472, Tenure: 120 months, EMI: 10429.71, Eligible: Yes
+ID: 226, Name: Anjali, Age: 24, City: Vizag, Job: IT Engineer, Income: 77051, CIBIL: 746, Bank: Yes Bank, Loan: Education, Amount: 1023960, Tenure: 60 months, EMI: 18760.65, Eligible: Yes
+ID: 227, Name: Rohit, Age: 59, City: Jaipur, Job: Business, Income: 47853, CIBIL: 776, Bank: SBI, Loan: Home, Amount: 2619698, Tenure: 48 months, EMI: 61333.68, Eligible: Yes
+ID: 228, Name: Rohit, Age: 30, City: Hyderabad, Job: Doctor, Income: 91233, CIBIL: 655, Bank: SBI, Loan: Personal, Amount: 700895, Tenure: 48 months, EMI: 16222.8, Eligible: No
+ID: 229, Name: Vikas, Age: 59, City: Mumbai, Job: Teacher, Income: 68619, CIBIL: 693, Bank: Kotak, Loan: Car, Amount: 2290453, Tenure: 360 months, EMI: 7140.49, Eligible: No
+ID: 230, Name: Neha, Age: 56, City: Kolkata, Job: IT Engineer, Income: 96542, CIBIL: 692, Bank: Kotak, Loan: Car, Amount: 1493040, Tenure: 360 months, EMI: 4596.9, Eligible: No
+ID: 231, Name: Rohit, Age: 34, City: Ahmedabad, Job: IT Engineer, Income: 32375, CIBIL: 646, Bank: Yes Bank, Loan: Car, Amount: 4741804, Tenure: 36 months, EMI: 143742.52, Eligible: No
+ID: 232, Name: Kavya, Age: 34, City: Bangalore, Job: Analyst, Income: 67270, CIBIL: 794, Bank: PNB, Loan: Personal, Amount: 2904819, Tenure: 36 months, EMI: 87814.29, Eligible: Yes
+ID: 233, Name: Rohit, Age: 57, City: Delhi, Job: Teacher, Income: 74575, CIBIL: 639, Bank: ICICI, Loan: Home, Amount: 2741809, Tenure: 36 months, EMI: 84478.18, Eligible: No
+ID: 234, Name: Nikhil, Age: 49, City: Pune, Job: Business, Income: 96351, CIBIL: 557, Bank: Canara, Loan: Education, Amount: 4328556, Tenure: 36 months, EMI: 132020.96, Eligible: No
+ID: 235, Name: Pooja, Age: 34, City: Jaipur, Job: Clerk, Income: 75169, CIBIL: 763, Bank: Canara, Loan: Car, Amount: 1922623, Tenure: 48 months, EMI: 44660.93, Eligible: Yes
+ID: 236, Name: Amit, Age: 44, City: Bangalore, Job: Student, Income: 90540, CIBIL: 570, Bank: ICICI, Loan: Education, Amount: 3187549, Tenure: 240 months, EMI: 14936.32, Eligible: No
+ID: 237, Name: Rahul, Age: 28, City: Pune, Job: Manager, Income: 67389, CIBIL: 764, Bank: HDFC, Loan: Education, Amount: 2516863, Tenure: 360 months, EMI: 7852.61, Eligible: Yes
+ID: 238, Name: Pooja, Age: 27, City: Chennai, Job: Freelancer, Income: 70385, CIBIL: 731, Bank: SBI, Loan: Car, Amount: 4567858, Tenure: 12 months, EMI: 425229.51, Eligible: Yes
+ID: 239, Name: Amit, Age: 29, City: Chennai, Job: Sales Executive, Income: 28153, CIBIL: 666, Bank: SBI, Loan: Personal, Amount: 4639400, Tenure: 120 months, EMI: 41677.28, Eligible: No
+ID: 240, Name: Vikas, Age: 57, City: Pune, Job: IT Engineer, Income: 66603, CIBIL: 770, Bank: HDFC, Loan: Home, Amount: 860450, Tenure: 36 months, EMI: 26195.92, Eligible: Yes
+ID: 241, Name: Nikhil, Age: 38, City: Ahmedabad, Job: Sales Executive, Income: 19236, CIBIL: 779, Bank: Axis, Loan: Personal, Amount: 1749623, Tenure: 36 months, EMI: 55074.24, Eligible: No
+ID: 242, Name: Divya, Age: 30, City: Pune, Job: Teacher, Income: 26980, CIBIL: 558, Bank: Axis, Loan: Education, Amount: 2928771, Tenure: 60 months, EMI: 53367.09, Eligible: No
+ID: 243, Name: Nikhil, Age: 44, City: Pune, Job: Manager, Income: 71717, CIBIL: 700, Bank: Kotak, Loan: Car, Amount: 1219008, Tenure: 36 months, EMI: 38429.23, Eligible: Yes
+ID: 244, Name: Riya, Age: 49, City: Vizag, Job: Manager, Income: 22322, CIBIL: 702, Bank: Canara, Loan: Car, Amount: 2061665, Tenure: 48 months, EMI: 48642.41, Eligible: No
+ID: 245, Name: Manoj, Age: 22, City: Chennai, Job: Doctor, Income: 90849, CIBIL: 777, Bank: Canara, Loan: Home, Amount: 870533, Tenure: 24 months, EMI: 40251.27, Eligible: Yes
+ID: 246, Name: Manoj, Age: 56, City: Ahmedabad, Job: Freelancer, Income: 30198, CIBIL: 623, Bank: ICICI, Loan: Car, Amount: 2515533, Tenure: 240 months, EMI: 11740.2, Eligible: No
+ID: 247, Name: Riya, Age: 52, City: Chennai, Job: Analyst, Income: 50059, CIBIL: 811, Bank: ICICI, Loan: Home, Amount: 836125, Tenure: 36 months, EMI: 25044.27, Eligible: Yes
+ID: 248, Name: Suresh, Age: 26, City: Mumbai, Job: Sales Executive, Income: 74114, CIBIL: 845, Bank: Kotak, Loan: Home, Amount: 3526336, Tenure: 360 months, EMI: 10942.42, Eligible: Yes
+ID: 249, Name: Amit, Age: 53, City: Ahmedabad, Job: Freelancer, Income: 59570, CIBIL: 650, Bank: Yes Bank, Loan: Car, Amount: 1413466, Tenure: 36 months, EMI: 43640.76, Eligible: No
+ID: 250, Name: Riya, Age: 51, City: Delhi, Job: Freelancer, Income: 76288, CIBIL: 588, Bank: ICICI, Loan: Education, Amount: 1094220, Tenure: 24 months, EMI: 49513.46, Eligible: No
+ID: 251, Name: Manoj, Age: 45, City: Mumbai, Job: Clerk, Income: 79922, CIBIL: 731, Bank: SBI, Loan: Education, Amount: 1390500, Tenure: 240 months, EMI: 6448.44, Eligible: Yes
+ID: 252, Name: Priya, Age: 39, City: Kolkata, Job: Business, Income: 73705, CIBIL: 820, Bank: HDFC, Loan: Car, Amount: 109215, Tenure: 24 months, EMI: 5106.26, Eligible: Yes
+ID: 253, Name: Riya, Age: 58, City: Delhi, Job: Manager, Income: 17693, CIBIL: 630, Bank: SBI, Loan: Personal, Amount: 89507, Tenure: 240 months, EMI: 409.83, Eligible: No
+ID: 254, Name: Meena, Age: 59, City: Bangalore, Job: Doctor, Income: 51286, CIBIL: 632, Bank: HDFC, Loan: Personal, Amount: 3418789, Tenure: 24 months, EMI: 156238.66, Eligible: No
+ID: 255, Name: Riya, Age: 30, City: Chennai, Job: Sales Executive, Income: 22145, CIBIL: 825, Bank: Kotak, Loan: Home, Amount: 631608, Tenure: 48 months, EMI: 14263.81, Eligible: No
+ID: 256, Name: Anjali, Age: 39, City: Hyderabad, Job: Student, Income: 31411, CIBIL: 811, Bank: Yes Bank, Loan: Personal, Amount: 578382, Tenure: 120 months, EMI: 5455.59, Eligible: Yes
+ID: 257, Name: Ravi, Age: 50, City: Chennai, Job: Teacher, Income: 23434, CIBIL: 591, Bank: PNB, Loan: Home, Amount: 3784073, Tenure: 360 months, EMI: 11466.79, Eligible: No
+ID: 258, Name: Manoj, Age: 59, City: Hyderabad, Job: Clerk, Income: 45672, CIBIL: 657, Bank: SBI, Loan: Personal, Amount: 1279217, Tenure: 120 months, EMI: 11827.43, Eligible: No
+ID: 259, Name: Amit, Age: 49, City: Delhi, Job: Clerk, Income: 74262, CIBIL: 680, Bank: SBI, Loan: Personal, Amount: 3972775, Tenure: 360 months, EMI: 11864.25, Eligible: No
+ID: 260, Name: Ravi, Age: 52, City: Ahmedabad, Job: Teacher, Income: 89592, CIBIL: 771, Bank: ICICI, Loan: Personal, Amount: 1185501, Tenure: 60 months, EMI: 21562.29, Eligible: Yes
+ID: 261, Name: Kiran, Age: 44, City: Pune, Job: Freelancer, Income: 18367, CIBIL: 811, Bank: ICICI, Loan: Home, Amount: 3349395, Tenure: 12 months, EMI: 307362.81, Eligible: No
+ID: 262, Name: Amit, Age: 60, City: Jaipur, Job: Sales Executive, Income: 72663, CIBIL: 618, Bank: Kotak, Loan: Home, Amount: 2913727, Tenure: 360 months, EMI: 9068.17, Eligible: No
+ID: 263, Name: Neha, Age: 36, City: Pune, Job: Sales Executive, Income: 54005, CIBIL: 573, Bank: HDFC, Loan: Education, Amount: 1184018, Tenure: 48 months, EMI: 27419.88, Eligible: No
+ID: 264, Name: Riya, Age: 42, City: Delhi, Job: Freelancer, Income: 83839, CIBIL: 557, Bank: PNB, Loan: Education, Amount: 1524603, Tenure: 360 months, EMI: 4744.9, Eligible: No
+ID: 265, Name: Neha, Age: 27, City: Bangalore, Job: Business, Income: 56365, CIBIL: 777, Bank: HDFC, Loan: Car, Amount: 2271613, Tenure: 36 months, EMI: 68842.49, Eligible: Yes
+ID: 266, Name: Kiran, Age: 36, City: Jaipur, Job: Freelancer, Income: 48953, CIBIL: 613, Bank: PNB, Loan: Home, Amount: 1076633, Tenure: 60 months, EMI: 19783.13, Eligible: No
+ID: 267, Name: Arjun, Age: 60, City: Mumbai, Job: Business, Income: 53697, CIBIL: 573, Bank: ICICI, Loan: Personal, Amount: 2886877, Tenure: 120 months, EMI: 27297.83, Eligible: No
+ID: 268, Name: Rahul, Age: 33, City: Kolkata, Job: Business, Income: 15342, CIBIL: 584, Bank: Kotak, Loan: Home, Amount: 4122216, Tenure: 120 months, EMI: 37391.93, Eligible: No
+ID: 269, Name: Sita, Age: 26, City: Delhi, Job: Analyst, Income: 26905, CIBIL: 575, Bank: ICICI, Loan: Car, Amount: 2573063, Tenure: 12 months, EMI: 230717.98, Eligible: No
+ID: 270, Name: Kiran, Age: 60, City: Delhi, Job: Sales Executive, Income: 28339, CIBIL: 769, Bank: SBI, Loan: Personal, Amount: 1560777, Tenure: 120 months, EMI: 14261.6, Eligible: Yes
+ID: 271, Name: Priya, Age: 25, City: Jaipur, Job: Clerk, Income: 48054, CIBIL: 658, Bank: Canara, Loan: Education, Amount: 839174, Tenure: 360 months, EMI: 2612.4, Eligible: No
+ID: 272, Name: Manoj, Age: 38, City: Pune, Job: Doctor, Income: 77549, CIBIL: 833, Bank: SBI, Loan: Car, Amount: 601117, Tenure: 24 months, EMI: 27340.8, Eligible: Yes
+ID: 273, Name: Suresh, Age: 24, City: Pune, Job: Manager, Income: 58374, CIBIL: 795, Bank: SBI, Loan: Personal, Amount: 1296492, Tenure: 360 months, EMI: 4004.36, Eligible: Yes
+ID: 274, Name: Kavya, Age: 41, City: Mumbai, Job: Manager, Income: 26936, CIBIL: 838, Bank: HDFC, Loan: Car, Amount: 557720, Tenure: 120 months, EMI: 5139.85, Eligible: Yes
+ID: 275, Name: Nikhil, Age: 56, City: Vizag, Job: Student, Income: 17829, CIBIL: 742, Bank: PNB, Loan: Home, Amount: 1793021, Tenure: 360 months, EMI: 5524.99, Eligible: No
+ID: 276, Name: Rahul, Age: 55, City: Vizag, Job: Sales Executive, Income: 54187, CIBIL: 728, Bank: Kotak, Loan: Home, Amount: 2321783, Tenure: 360 months, EMI: 7145.29, Eligible: Yes
+ID: 277, Name: Nikhil, Age: 34, City: Chennai, Job: Analyst, Income: 74092, CIBIL: 658, Bank: ICICI, Loan: Education, Amount: 729029, Tenure: 240 months, EMI: 3405.17, Eligible: No
+ID: 278, Name: Anjali, Age: 28, City: Mumbai, Job: Analyst, Income: 53667, CIBIL: 631, Bank: Kotak, Loan: Home, Amount: 3556233, Tenure: 120 months, EMI: 32112.78, Eligible: No
+ID: 279, Name: Nikhil, Age: 53, City: Jaipur, Job: Doctor, Income: 91254, CIBIL: 689, Bank: Axis, Loan: Education, Amount: 3831620, Tenure: 120 months, EMI: 35962.95, Eligible: No
+ID: 280, Name: Anjali, Age: 49, City: Ahmedabad, Job: Teacher, Income: 71428, CIBIL: 845, Bank: Yes Bank, Loan: Education, Amount: 2353349, Tenure: 24 months, EMI: 110911.38, Eligible: Yes
+ID: 281, Name: Divya, Age: 28, City: Hyderabad, Job: Teacher, Income: 86691, CIBIL: 711, Bank: Yes Bank, Loan: Car, Amount: 3331952, Tenure: 24 months, EMI: 157254.25, Eligible: Yes
+ID: 282, Name: Priya, Age: 45, City: Kolkata, Job: Doctor, Income: 43696, CIBIL: 849, Bank: Canara, Loan: Education, Amount: 4157206, Tenure: 120 months, EMI: 39153.95, Eligible: Yes
+ID: 283, Name: Manoj, Age: 44, City: Jaipur, Job: Clerk, Income: 93050, CIBIL: 597, Bank: ICICI, Loan: Home, Amount: 875715, Tenure: 120 months, EMI: 8249.97, Eligible: No
+ID: 284, Name: Pooja, Age: 58, City: Kolkata, Job: IT Engineer, Income: 26492, CIBIL: 651, Bank: Axis, Loan: Personal, Amount: 4547803, Tenure: 12 months, EMI: 412220.44, Eligible: No
+ID: 285, Name: Ravi, Age: 45, City: Hyderabad, Job: Sales Executive, Income: 16865, CIBIL: 757, Bank: SBI, Loan: Personal, Amount: 3338721, Tenure: 36 months, EMI: 100801.55, Eligible: No
+ID: 286, Name: Arjun, Age: 32, City: Delhi, Job: Doctor, Income: 17996, CIBIL: 653, Bank: SBI, Loan: Car, Amount: 555828, Tenure: 60 months, EMI: 9967.85, Eligible: No
+ID: 287, Name: Priya, Age: 24, City: Kolkata, Job: Business, Income: 74986, CIBIL: 796, Bank: PNB, Loan: Personal, Amount: 3594252, Tenure: 48 months, EMI: 82697.75, Eligible: Yes
+ID: 288, Name: Amit, Age: 52, City: Hyderabad, Job: Analyst, Income: 63873, CIBIL: 718, Bank: HDFC, Loan: Car, Amount: 1594581, Tenure: 60 months, EMI: 28649.31, Eligible: Yes
+ID: 289, Name: Sneha, Age: 56, City: Delhi, Job: Sales Executive, Income: 86549, CIBIL: 603, Bank: Axis, Loan: Education, Amount: 4855877, Tenure: 360 months, EMI: 14609.45, Eligible: No
+ID: 290, Name: Meena, Age: 35, City: Ahmedabad, Job: Freelancer, Income: 67422, CIBIL: 555, Bank: PNB, Loan: Education, Amount: 4333265, Tenure: 60 months, EMI: 81927.6, Eligible: No
+ID: 291, Name: Riya, Age: 40, City: Bangalore, Job: Clerk, Income: 61152, CIBIL: 775, Bank: ICICI, Loan: Home, Amount: 3862164, Tenure: 240 months, EMI: 17819.06, Eligible: Yes
+ID: 292, Name: Riya, Age: 39, City: Chennai, Job: Student, Income: 27863, CIBIL: 651, Bank: SBI, Loan: Personal, Amount: 1269093, Tenure: 240 months, EMI: 5823.02, Eligible: No
+ID: 293, Name: Rahul, Age: 33, City: Ahmedabad, Job: Freelancer, Income: 90692, CIBIL: 704, Bank: Yes Bank, Loan: Car, Amount: 3605430, Tenure: 240 months, EMI: 16947.02, Eligible: Yes
+ID: 294, Name: Kavya, Age: 23, City: Delhi, Job: Business, Income: 88317, CIBIL: 577, Bank: PNB, Loan: Home, Amount: 635955, Tenure: 60 months, EMI: 11406.91, Eligible: No
+ID: 295, Name: Divya, Age: 22, City: Pune, Job: Freelancer, Income: 23104, CIBIL: 601, Bank: ICICI, Loan: Home, Amount: 431119, Tenure: 36 months, EMI: 13459.3, Eligible: No
+ID: 296, Name: Neha, Age: 58, City: Vizag, Job: Manager, Income: 97347, CIBIL: 638, Bank: Yes Bank, Loan: Home, Amount: 3596815, Tenure: 60 months, EMI: 65887.66, Eligible: No
+ID: 297, Name: Nikhil, Age: 37, City: Mumbai, Job: Manager, Income: 19796, CIBIL: 791, Bank: Axis, Loan: Car, Amount: 2377038, Tenure: 36 months, EMI: 72664.73, Eligible: No
+ID: 298, Name: Anjali, Age: 27, City: Ahmedabad, Job: Clerk, Income: 66099, CIBIL: 560, Bank: Yes Bank, Loan: Personal, Amount: 1638388, Tenure: 48 months, EMI: 38256.36, Eligible: No
+ID: 299, Name: Kiran, Age: 29, City: Chennai, Job: Freelancer, Income: 62183, CIBIL: 778, Bank: SBI, Loan: Home, Amount: 1166129, Tenure: 48 months, EMI: 27119.79, Eligible: Yes
+ID: 300, Name: Riya, Age: 57, City: Hyderabad, Job: Freelancer, Income: 55208, CIBIL: 712, Bank: SBI, Loan: Home, Amount: 3635067, Tenure: 360 months, EMI: 10896.11, Eligible: Yes
+ID: 301, Name: Ravi, Age: 36, City: Kolkata, Job: IT Engineer, Income: 90404, CIBIL: 786, Bank: ICICI, Loan: Personal, Amount: 2865615, Tenure: 120 months, EMI: 26394.7, Eligible: Yes
+ID: 302, Name: Nikhil, Age: 48, City: Pune, Job: Student, Income: 75527, CIBIL: 800, Bank: Kotak, Loan: Education, Amount: 2961971, Tenure: 12 months, EMI: 265688.8, Eligible: Yes
+ID: 303, Name: Anjali, Age: 57, City: Vizag, Job: Teacher, Income: 42645, CIBIL: 698, Bank: Axis, Loan: Personal, Amount: 231756, Tenure: 120 months, EMI: 2140.46, Eligible: No
+ID: 304, Name: Nikhil, Age: 35, City: Jaipur, Job: Sales Executive, Income: 38135, CIBIL: 748, Bank: Canara, Loan: Personal, Amount: 2979620, Tenure: 360 months, EMI: 9127.57, Eligible: Yes
+ID: 305, Name: Divya, Age: 29, City: Bangalore, Job: Doctor, Income: 45027, CIBIL: 646, Bank: Yes Bank, Loan: Car, Amount: 2905363, Tenure: 240 months, EMI: 13331.98, Eligible: No
+ID: 306, Name: Rahul, Age: 26, City: Delhi, Job: Doctor, Income: 49426, CIBIL: 744, Bank: HDFC, Loan: Personal, Amount: 3704423, Tenure: 12 months, EMI: 335497.24, Eligible: Yes
+ID: 307, Name: Riya, Age: 30, City: Mumbai, Job: Sales Executive, Income: 74396, CIBIL: 811, Bank: Yes Bank, Loan: Car, Amount: 3680669, Tenure: 360 months, EMI: 11107.44, Eligible: Yes
+ID: 308, Name: Manoj, Age: 30, City: Pune, Job: Doctor, Income: 72603, CIBIL: 745, Bank: ICICI, Loan: Car, Amount: 150214, Tenure: 48 months, EMI: 3428.95, Eligible: Yes
+ID: 309, Name: Sneha, Age: 22, City: Chennai, Job: Doctor, Income: 79037, CIBIL: 594, Bank: SBI, Loan: Education, Amount: 4472675, Tenure: 24 months, EMI: 203357.62, Eligible: No
+ID: 310, Name: Amit, Age: 46, City: Bangalore, Job: Analyst, Income: 73726, CIBIL: 636, Bank: Yes Bank, Loan: Education, Amount: 2422997, Tenure: 36 months, EMI: 75543.66, Eligible: No
+ID: 311, Name: Neha, Age: 54, City: Chennai, Job: Manager, Income: 34567, CIBIL: 645, Bank: SBI, Loan: Education, Amount: 403443, Tenure: 12 months, EMI: 36511.59, Eligible: No
+ID: 312, Name: Rahul, Age: 25, City: Bangalore, Job: Sales Executive, Income: 72764, CIBIL: 768, Bank: Canara, Loan: Car, Amount: 767354, Tenure: 36 months, EMI: 23419.22, Eligible: Yes
+ID: 313, Name: Pooja, Age: 56, City: Hyderabad, Job: Doctor, Income: 49767, CIBIL: 786, Bank: Canara, Loan: Personal, Amount: 2824581, Tenure: 12 months, EMI: 266122.61, Eligible: Yes
+ID: 314, Name: Nikhil, Age: 29, City: Hyderabad, Job: Clerk, Income: 80057, CIBIL: 640, Bank: ICICI, Loan: Personal, Amount: 3414196, Tenure: 60 months, EMI: 61330.34, Eligible: No
+ID: 315, Name: Vikas, Age: 51, City: Bangalore, Job: Clerk, Income: 74317, CIBIL: 789, Bank: SBI, Loan: Education, Amount: 3500429, Tenure: 240 months, EMI: 15989.67, Eligible: Yes
+ID: 316, Name: Riya, Age: 34, City: Jaipur, Job: Manager, Income: 80837, CIBIL: 646, Bank: ICICI, Loan: Home, Amount: 4158399, Tenure: 120 months, EMI: 37477.57, Eligible: No
+ID: 317, Name: Manoj, Age: 59, City: Kolkata, Job: Doctor, Income: 89646, CIBIL: 818, Bank: HDFC, Loan: Education, Amount: 4632566, Tenure: 360 months, EMI: 14520.52, Eligible: Yes
+ID: 318, Name: Priya, Age: 41, City: Pune, Job: Freelancer, Income: 62276, CIBIL: 632, Bank: Yes Bank, Loan: Education, Amount: 2751186, Tenure: 240 months, EMI: 12425.04, Eligible: No
+ID: 319, Name: Arjun, Age: 34, City: Mumbai, Job: Teacher, Income: 96482, CIBIL: 610, Bank: Yes Bank, Loan: Car, Amount: 3251816, Tenure: 48 months, EMI: 73768.8, Eligible: No
+ID: 320, Name: Arjun, Age: 46, City: Ahmedabad, Job: Doctor, Income: 99649, CIBIL: 692, Bank: Yes Bank, Loan: Car, Amount: 3227249, Tenure: 120 months, EMI: 29408.31, Eligible: No
+ID: 321, Name: Arjun, Age: 30, City: Pune, Job: Clerk, Income: 66285, CIBIL: 802, Bank: Canara, Loan: Personal, Amount: 67489, Tenure: 24 months, EMI: 3117.99, Eligible: Yes
+ID: 322, Name: Rahul, Age: 25, City: Mumbai, Job: Sales Executive, Income: 70730, CIBIL: 678, Bank: Kotak, Loan: Car, Amount: 454476, Tenure: 60 months, EMI: 8159.36, Eligible: No
+ID: 323, Name: Neha, Age: 59, City: Vizag, Job: Freelancer, Income: 15463, CIBIL: 592, Bank: HDFC, Loan: Personal, Amount: 822866, Tenure: 12 months, EMI: 74057.94, Eligible: No
+ID: 324, Name: Rahul, Age: 38, City: Bangalore, Job: Business, Income: 37298, CIBIL: 694, Bank: Canara, Loan: Education, Amount: 3291487, Tenure: 60 months, EMI: 61106.46, Eligible: No
+ID: 325, Name: Priya, Age: 46, City: Kolkata, Job: Manager, Income: 56387, CIBIL: 624, Bank: Axis, Loan: Education, Amount: 1386429, Tenure: 60 months, EMI: 24911.82, Eligible: No
+ID: 326, Name: Vikas, Age: 51, City: Delhi, Job: Freelancer, Income: 48523, CIBIL: 705, Bank: ICICI, Loan: Car, Amount: 1174080, Tenure: 48 months, EMI: 27255.78, Eligible: Yes
+ID: 327, Name: Suresh, Age: 54, City: Delhi, Job: Manager, Income: 64174, CIBIL: 622, Bank: Kotak, Loan: Education, Amount: 1426918, Tenure: 24 months, EMI: 66434.92, Eligible: No
+ID: 328, Name: Vikas, Age: 40, City: Hyderabad, Job: Analyst, Income: 48175, CIBIL: 752, Bank: HDFC, Loan: Home, Amount: 302558, Tenure: 36 months, EMI: 9416.28, Eligible: Yes
+ID: 329, Name: Sneha, Age: 28, City: Chennai, Job: Manager, Income: 94223, CIBIL: 829, Bank: ICICI, Loan: Home, Amount: 2416129, Tenure: 120 months, EMI: 21781.4, Eligible: Yes
+ID: 330, Name: Rahul, Age: 39, City: Jaipur, Job: Teacher, Income: 48484, CIBIL: 828, Bank: Kotak, Loan: Education, Amount: 2813937, Tenure: 120 months, EMI: 26411.14, Eligible: Yes
+ID: 331, Name: Rohit, Age: 38, City: Chennai, Job: IT Engineer, Income: 62951, CIBIL: 695, Bank: Axis, Loan: Personal, Amount: 1769016, Tenure: 120 months, EMI: 16588.95, Eligible: No
+ID: 332, Name: Riya, Age: 50, City: Kolkata, Job: Teacher, Income: 31510, CIBIL: 648, Bank: PNB, Loan: Personal, Amount: 884604, Tenure: 48 months, EMI: 20480.43, Eligible: No
+ID: 333, Name: Divya, Age: 51, City: Mumbai, Job: Manager, Income: 82704, CIBIL: 845, Bank: Canara, Loan: Education, Amount: 1880113, Tenure: 48 months, EMI: 43285.68, Eligible: Yes
+ID: 334, Name: Amit, Age: 41, City: Pune, Job: Student, Income: 70434, CIBIL: 810, Bank: Axis, Loan: Car, Amount: 1111345, Tenure: 48 months, EMI: 26019.36, Eligible: Yes
+ID: 335, Name: Divya, Age: 45, City: Kolkata, Job: Manager, Income: 33050, CIBIL: 661, Bank: Kotak, Loan: Education, Amount: 1873387, Tenure: 36 months, EMI: 58382.02, Eligible: No
+ID: 336, Name: Rohit, Age: 54, City: Bangalore, Job: Teacher, Income: 48646, CIBIL: 640, Bank: Kotak, Loan: Personal, Amount: 4236959, Tenure: 120 months, EMI: 38697.56, Eligible: No
+ID: 337, Name: Meena, Age: 33, City: Chennai, Job: Freelancer, Income: 86121, CIBIL: 717, Bank: Kotak, Loan: Personal, Amount: 2760630, Tenure: 12 months, EMI: 258763.05, Eligible: Yes
+ID: 338, Name: Manoj, Age: 53, City: Hyderabad, Job: Freelancer, Income: 84344, CIBIL: 784, Bank: Canara, Loan: Education, Amount: 3500303, Tenure: 240 months, EMI: 16175.78, Eligible: Yes
+ID: 339, Name: Arjun, Age: 60, City: Ahmedabad, Job: Student, Income: 47232, CIBIL: 744, Bank: HDFC, Loan: Education, Amount: 4154524, Tenure: 48 months, EMI: 98159.28, Eligible: Yes
+ID: 340, Name: Pooja, Age: 31, City: Ahmedabad, Job: Student, Income: 63787, CIBIL: 664, Bank: Canara, Loan: Home, Amount: 2416838, Tenure: 360 months, EMI: 7315.63, Eligible: No
+ID: 341, Name: Anjali, Age: 26, City: Mumbai, Job: Manager, Income: 51364, CIBIL: 812, Bank: PNB, Loan: Home, Amount: 512233, Tenure: 24 months, EMI: 23039.81, Eligible: Yes
+ID: 342, Name: Kiran, Age: 43, City: Delhi, Job: IT Engineer, Income: 26597, CIBIL: 784, Bank: HDFC, Loan: Home, Amount: 4073052, Tenure: 240 months, EMI: 18881.99, Eligible: Yes
+ID: 343, Name: Kiran, Age: 39, City: Mumbai, Job: Business, Income: 66312, CIBIL: 619, Bank: SBI, Loan: Personal, Amount: 1811894, Tenure: 36 months, EMI: 56133.48, Eligible: No
+ID: 344, Name: Sita, Age: 47, City: Vizag, Job: Clerk, Income: 26716, CIBIL: 641, Bank: SBI, Loan: Education, Amount: 4775254, Tenure: 24 months, EMI: 215324.16, Eligible: No
+ID: 345, Name: Kavya, Age: 60, City: Mumbai, Job: Business, Income: 35233, CIBIL: 844, Bank: HDFC, Loan: Car, Amount: 1276241, Tenure: 60 months, EMI: 23706.18, Eligible: Yes
+ID: 346, Name: Anjali, Age: 24, City: Mumbai, Job: Doctor, Income: 84661, CIBIL: 619, Bank: Axis, Loan: Personal, Amount: 114852, Tenure: 24 months, EMI: 5321.48, Eligible: No
+ID: 347, Name: Priya, Age: 39, City: Pune, Job: Student, Income: 44055, CIBIL: 669, Bank: PNB, Loan: Car, Amount: 4070334, Tenure: 60 months, EMI: 73618.77, Eligible: No
+ID: 348, Name: Kavya, Age: 49, City: Vizag, Job: Manager, Income: 79912, CIBIL: 647, Bank: Axis, Loan: Education, Amount: 800724, Tenure: 360 months, EMI: 2463.34, Eligible: No
+ID: 349, Name: Amit, Age: 50, City: Chennai, Job: Student, Income: 54517, CIBIL: 664, Bank: ICICI, Loan: Home, Amount: 2241366, Tenure: 60 months, EMI: 40374.47, Eligible: No
+ID: 350, Name: Arjun, Age: 32, City: Chennai, Job: Business, Income: 79624, CIBIL: 640, Bank: PNB, Loan: Education, Amount: 1531515, Tenure: 36 months, EMI: 46290.04, Eligible: No
+ID: 351, Name: Kiran, Age: 57, City: Pune, Job: IT Engineer, Income: 97140, CIBIL: 612, Bank: Axis, Loan: Personal, Amount: 2363726, Tenure: 120 months, EMI: 22077.2, Eligible: No
+ID: 352, Name: Kavya, Age: 40, City: Hyderabad, Job: IT Engineer, Income: 85919, CIBIL: 776, Bank: Kotak, Loan: Personal, Amount: 273928, Tenure: 60 months, EMI: 5146.19, Eligible: Yes
+ID: 353, Name: Meena, Age: 51, City: Vizag, Job: Sales Executive, Income: 40352, CIBIL: 683, Bank: PNB, Loan: Car, Amount: 2176191, Tenure: 240 months, EMI: 10088.46, Eligible: No
+ID: 354, Name: Anjali, Age: 26, City: Bangalore, Job: Sales Executive, Income: 80045, CIBIL: 731, Bank: Yes Bank, Loan: Personal, Amount: 2232358, Tenure: 36 months, EMI: 69810.8, Eligible: Yes
+ID: 355, Name: Rohit, Age: 37, City: Mumbai, Job: Doctor, Income: 60914, CIBIL: 696, Bank: Canara, Loan: Personal, Amount: 4146676, Tenure: 24 months, EMI: 187447.03, Eligible: No
+ID: 356, Name: Kavya, Age: 29, City: Mumbai, Job: Teacher, Income: 37392, CIBIL: 658, Bank: HDFC, Loan: Car, Amount: 1129247, Tenure: 360 months, EMI: 3531.72, Eligible: No
+ID: 357, Name: Riya, Age: 47, City: Vizag, Job: Analyst, Income: 45603, CIBIL: 819, Bank: Axis, Loan: Education, Amount: 1915619, Tenure: 60 months, EMI: 36074.3, Eligible: Yes
+ID: 358, Name: Kavya, Age: 60, City: Mumbai, Job: Doctor, Income: 19646, CIBIL: 785, Bank: PNB, Loan: Personal, Amount: 1978542, Tenure: 360 months, EMI: 6016.42, Eligible: No
+ID: 359, Name: Sneha, Age: 57, City: Jaipur, Job: Manager, Income: 82033, CIBIL: 748, Bank: ICICI, Loan: Home, Amount: 1080647, Tenure: 36 months, EMI: 33974.34, Eligible: Yes
+ID: 360, Name: Arjun, Age: 55, City: Vizag, Job: IT Engineer, Income: 79068, CIBIL: 558, Bank: HDFC, Loan: Education, Amount: 2726529, Tenure: 12 months, EMI: 256793.59, Eligible: No
+ID: 361, Name: Suresh, Age: 41, City: Vizag, Job: Analyst, Income: 79601, CIBIL: 581, Bank: Yes Bank, Loan: Car, Amount: 1427448, Tenure: 36 months, EMI: 44802.04, Eligible: No
+ID: 362, Name: Manoj, Age: 52, City: Delhi, Job: IT Engineer, Income: 63206, CIBIL: 725, Bank: HDFC, Loan: Personal, Amount: 3179955, Tenure: 48 months, EMI: 72125.35, Eligible: Yes
+ID: 363, Name: Pooja, Age: 27, City: Chennai, Job: Business, Income: 86987, CIBIL: 701, Bank: Yes Bank, Loan: Home, Amount: 4005738, Tenure: 60 months, EMI: 73158.13, Eligible: Yes
+ID: 364, Name: Nikhil, Age: 28, City: Pune, Job: Clerk, Income: 77370, CIBIL: 794, Bank: ICICI, Loan: Home, Amount: 1440189, Tenure: 36 months, EMI: 44493.84, Eligible: Yes
+ID: 365, Name: Anjali, Age: 29, City: Kolkata, Job: Freelancer, Income: 84762, CIBIL: 580, Bank: HDFC, Loan: Education, Amount: 1908583, Tenure: 240 months, EMI: 8595.78, Eligible: No
+ID: 366, Name: Pooja, Age: 59, City: Jaipur, Job: Analyst, Income: 76743, CIBIL: 754, Bank: HDFC, Loan: Home, Amount: 3020258, Tenure: 360 months, EMI: 9163.97, Eligible: Yes
+ID: 367, Name: Sneha, Age: 43, City: Jaipur, Job: Doctor, Income: 79451, CIBIL: 567, Bank: Yes Bank, Loan: Home, Amount: 1414384, Tenure: 12 months, EMI: 132174.18, Eligible: No
+ID: 368, Name: Rohit, Age: 41, City: Hyderabad, Job: Business, Income: 21642, CIBIL: 819, Bank: Kotak, Loan: Personal, Amount: 555368, Tenure: 24 months, EMI: 25412.71, Eligible: No
+ID: 369, Name: Kiran, Age: 40, City: Delhi, Job: Freelancer, Income: 19352, CIBIL: 561, Bank: Kotak, Loan: Education, Amount: 1005229, Tenure: 36 months, EMI: 31399.44, Eligible: No
+ID: 370, Name: Divya, Age: 55, City: Mumbai, Job: Freelancer, Income: 38080, CIBIL: 617, Bank: Yes Bank, Loan: Personal, Amount: 489744, Tenure: 12 months, EMI: 43950.44, Eligible: No
+ID: 371, Name: Amit, Age: 52, City: Kolkata, Job: Student, Income: 28933, CIBIL: 844, Bank: PNB, Loan: Home, Amount: 4822149, Tenure: 120 months, EMI: 44858.04, Eligible: Yes
+ID: 372, Name: Ravi, Age: 39, City: Vizag, Job: Business, Income: 78280, CIBIL: 834, Bank: PNB, Loan: Car, Amount: 4864258, Tenure: 48 months, EMI: 109293.8, Eligible: Yes
+ID: 373, Name: Amit, Age: 47, City: Pune, Job: Sales Executive, Income: 69453, CIBIL: 609, Bank: Axis, Loan: Car, Amount: 4329923, Tenure: 48 months, EMI: 99461.94, Eligible: No
+ID: 374, Name: Kiran, Age: 54, City: Pune, Job: Clerk, Income: 98499, CIBIL: 570, Bank: Axis, Loan: Home, Amount: 4914881, Tenure: 36 months, EMI: 152934.71, Eligible: No
+ID: 375, Name: Pooja, Age: 35, City: Ahmedabad, Job: Doctor, Income: 52781, CIBIL: 814, Bank: Canara, Loan: Personal, Amount: 3936742, Tenure: 60 months, EMI: 73374.31, Eligible: Yes
+ID: 376, Name: Divya, Age: 53, City: Ahmedabad, Job: Clerk, Income: 58268, CIBIL: 752, Bank: Canara, Loan: Education, Amount: 606189, Tenure: 120 months, EMI: 5644.63, Eligible: Yes
+ID: 377, Name: Kavya, Age: 23, City: Vizag, Job: Teacher, Income: 43210, CIBIL: 692, Bank: Axis, Loan: Education, Amount: 371231, Tenure: 24 months, EMI: 17240.59, Eligible: No
+ID: 378, Name: Vikas, Age: 52, City: Ahmedabad, Job: Clerk, Income: 58698, CIBIL: 759, Bank: Axis, Loan: Education, Amount: 3090604, Tenure: 360 months, EMI: 9399.73, Eligible: Yes
+ID: 379, Name: Kiran, Age: 48, City: Mumbai, Job: Sales Executive, Income: 53937, CIBIL: 561, Bank: Kotak, Loan: Personal, Amount: 3611521, Tenure: 36 months, EMI: 109619.69, Eligible: No
+ID: 380, Name: Priya, Age: 41, City: Kolkata, Job: Teacher, Income: 18976, CIBIL: 612, Bank: HDFC, Loan: Education, Amount: 2326461, Tenure: 240 months, EMI: 10881.05, Eligible: No
+ID: 381, Name: Neha, Age: 58, City: Pune, Job: Student, Income: 34492, CIBIL: 596, Bank: Yes Bank, Loan: Personal, Amount: 2755775, Tenure: 36 months, EMI: 83178.48, Eligible: No
+ID: 382, Name: Kavya, Age: 31, City: Delhi, Job: Student, Income: 98116, CIBIL: 716, Bank: PNB, Loan: Education, Amount: 2505945, Tenure: 120 months, EMI: 23048.43, Eligible: Yes
+ID: 383, Name: Arjun, Age: 48, City: Hyderabad, Job: IT Engineer, Income: 53660, CIBIL: 835, Bank: Yes Bank, Loan: Education, Amount: 1902155, Tenure: 48 months, EMI: 44023.0, Eligible: Yes
+ID: 384, Name: Rohit, Age: 25, City: Jaipur, Job: Sales Executive, Income: 52929, CIBIL: 836, Bank: PNB, Loan: Car, Amount: 1880525, Tenure: 60 months, EMI: 34466.89, Eligible: Yes
+ID: 385, Name: Kiran, Age: 42, City: Mumbai, Job: Student, Income: 30263, CIBIL: 815, Bank: SBI, Loan: Home, Amount: 3708295, Tenure: 24 months, EMI: 172080.34, Eligible: Yes
+ID: 386, Name: Pooja, Age: 58, City: Ahmedabad, Job: Teacher, Income: 92337, CIBIL: 698, Bank: Canara, Loan: Car, Amount: 4370245, Tenure: 48 months, EMI: 103301.67, Eligible: No
+ID: 387, Name: Riya, Age: 40, City: Hyderabad, Job: Analyst, Income: 63701, CIBIL: 763, Bank: HDFC, Loan: Car, Amount: 2704497, Tenure: 360 months, EMI: 8487.61, Eligible: Yes
+ID: 388, Name: Divya, Age: 55, City: Chennai, Job: Business, Income: 46939, CIBIL: 770, Bank: Kotak, Loan: Car, Amount: 4607920, Tenure: 60 months, EMI: 86390.82, Eligible: Yes
+ID: 389, Name: Kiran, Age: 27, City: Mumbai, Job: Doctor, Income: 98625, CIBIL: 716, Bank: Axis, Loan: Education, Amount: 2325559, Tenure: 60 months, EMI: 43096.48, Eligible: Yes
+ID: 390, Name: Sneha, Age: 39, City: Jaipur, Job: Sales Executive, Income: 54560, CIBIL: 637, Bank: Yes Bank, Loan: Car, Amount: 1123102, Tenure: 60 months, EMI: 20524.69, Eligible: No
+ID: 391, Name: Suresh, Age: 24, City: Kolkata, Job: Manager, Income: 97063, CIBIL: 555, Bank: Axis, Loan: Car, Amount: 3651428, Tenure: 12 months, EMI: 341651.95, Eligible: No
+ID: 392, Name: Nikhil, Age: 32, City: Hyderabad, Job: IT Engineer, Income: 89067, CIBIL: 693, Bank: PNB, Loan: Home, Amount: 2671660, Tenure: 24 months, EMI: 122840.7, Eligible: No
+ID: 393, Name: Pooja, Age: 50, City: Jaipur, Job: Teacher, Income: 26257, CIBIL: 574, Bank: Canara, Loan: Personal, Amount: 3057680, Tenure: 120 months, EMI: 27684.74, Eligible: No
+ID: 394, Name: Rohit, Age: 43, City: Pune, Job: Clerk, Income: 23792, CIBIL: 821, Bank: Axis, Loan: Personal, Amount: 3545285, Tenure: 240 months, EMI: 16685.0, Eligible: No
+ID: 395, Name: Rahul, Age: 54, City: Delhi, Job: Freelancer, Income: 93098, CIBIL: 718, Bank: PNB, Loan: Education, Amount: 895687, Tenure: 120 months, EMI: 8099.25, Eligible: Yes
+ID: 396, Name: Amit, Age: 31, City: Hyderabad, Job: Manager, Income: 70890, CIBIL: 678, Bank: ICICI, Loan: Personal, Amount: 3271545, Tenure: 120 months, EMI: 29705.63, Eligible: No
+ID: 397, Name: Ravi, Age: 37, City: Ahmedabad, Job: Analyst, Income: 32740, CIBIL: 808, Bank: Yes Bank, Loan: Car, Amount: 2938905, Tenure: 240 months, EMI: 13392.83, Eligible: Yes
+ID: 398, Name: Manoj, Age: 44, City: Ahmedabad, Job: Teacher, Income: 36256, CIBIL: 720, Bank: Yes Bank, Loan: Home, Amount: 4019309, Tenure: 120 months, EMI: 36826.92, Eligible: Yes
+ID: 399, Name: Riya, Age: 34, City: Vizag, Job: Sales Executive, Income: 68345, CIBIL: 811, Bank: Yes Bank, Loan: Education, Amount: 4890125, Tenure: 120 months, EMI: 45001.38, Eligible: Yes
+ID: 400, Name: Kiran, Age: 38, City: Ahmedabad, Job: Sales Executive, Income: 49157, CIBIL: 774, Bank: Yes Bank, Loan: Car, Amount: 4800531, Tenure: 36 months, EMI: 144616.0, Eligible: Yes
+ID: 401, Name: Arjun, Age: 28, City: Hyderabad, Job: Analyst, Income: 21449, CIBIL: 655, Bank: PNB, Loan: Home, Amount: 3099268, Tenure: 240 months, EMI: 14363.82, Eligible: No
+ID: 402, Name: Riya, Age: 44, City: Mumbai, Job: Clerk, Income: 52467, CIBIL: 814, Bank: Yes Bank, Loan: Home, Amount: 807854, Tenure: 36 months, EMI: 25427.2, Eligible: Yes
+ID: 403, Name: Vikas, Age: 43, City: Hyderabad, Job: Doctor, Income: 81649, CIBIL: 576, Bank: HDFC, Loan: Education, Amount: 2154544, Tenure: 360 months, EMI: 6476.2, Eligible: No
+ID: 404, Name: Neha, Age: 41, City: Pune, Job: Business, Income: 80709, CIBIL: 714, Bank: Yes Bank, Loan: Home, Amount: 3828427, Tenure: 36 months, EMI: 116182.12, Eligible: Yes
+ID: 405, Name: Sneha, Age: 29, City: Pune, Job: IT Engineer, Income: 47079, CIBIL: 723, Bank: ICICI, Loan: Personal, Amount: 4250780, Tenure: 12 months, EMI: 381790.89, Eligible: Yes
+ID: 406, Name: Meena, Age: 41, City: Kolkata, Job: IT Engineer, Income: 32003, CIBIL: 669, Bank: Canara, Loan: Car, Amount: 4306763, Tenure: 36 months, EMI: 134203.52, Eligible: No
+ID: 407, Name: Meena, Age: 56, City: Mumbai, Job: Sales Executive, Income: 72727, CIBIL: 803, Bank: Kotak, Loan: Home, Amount: 1060019, Tenure: 36 months, EMI: 32630.92, Eligible: Yes
+ID: 408, Name: Sneha, Age: 40, City: Hyderabad, Job: Doctor, Income: 50940, CIBIL: 708, Bank: Kotak, Loan: Car, Amount: 126442, Tenure: 24 months, EMI: 5690.94, Eligible: Yes
+ID: 409, Name: Kiran, Age: 44, City: Jaipur, Job: Freelancer, Income: 57693, CIBIL: 582, Bank: Canara, Loan: Personal, Amount: 187273, Tenure: 36 months, EMI: 5875.17, Eligible: No
+ID: 410, Name: Divya, Age: 53, City: Vizag, Job: Freelancer, Income: 96474, CIBIL: 753, Bank: ICICI, Loan: Education, Amount: 798414, Tenure: 48 months, EMI: 18810.97, Eligible: Yes
+ID: 411, Name: Riya, Age: 58, City: Delhi, Job: Manager, Income: 17693, CIBIL: 736, Bank: HDFC, Loan: Education, Amount: 2418594, Tenure: 240 months, EMI: 11305.92, Eligible: No
+ID: 412, Name: Nikhil, Age: 58, City: Pune, Job: Analyst, Income: 69568, CIBIL: 610, Bank: PNB, Loan: Car, Amount: 1038054, Tenure: 360 months, EMI: 3269.87, Eligible: No
+ID: 413, Name: Pooja, Age: 49, City: Pune, Job: Teacher, Income: 24578, CIBIL: 656, Bank: Canara, Loan: Car, Amount: 3796430, Tenure: 12 months, EMI: 350125.76, Eligible: No
+ID: 414, Name: Neha, Age: 50, City: Kolkata, Job: Freelancer, Income: 82532, CIBIL: 595, Bank: Kotak, Loan: Car, Amount: 2838593, Tenure: 360 months, EMI: 8532.34, Eligible: No
+ID: 415, Name: Kavya, Age: 47, City: Pune, Job: Doctor, Income: 16274, CIBIL: 810, Bank: HDFC, Loan: Home, Amount: 1747133, Tenure: 240 months, EMI: 8090.68, Eligible: No
+ID: 416, Name: Divya, Age: 44, City: Mumbai, Job: Teacher, Income: 29559, CIBIL: 597, Bank: Kotak, Loan: Car, Amount: 1855654, Tenure: 360 months, EMI: 5650.98, Eligible: No
+ID: 417, Name: Nikhil, Age: 54, City: Mumbai, Job: IT Engineer, Income: 30669, CIBIL: 577, Bank: HDFC, Loan: Education, Amount: 1033494, Tenure: 12 months, EMI: 95064.22, Eligible: No
+ID: 418, Name: Riya, Age: 47, City: Kolkata, Job: Student, Income: 49383, CIBIL: 805, Bank: Kotak, Loan: Education, Amount: 4019690, Tenure: 120 months, EMI: 36800.26, Eligible: Yes
+ID: 419, Name: Rohit, Age: 37, City: Jaipur, Job: Freelancer, Income: 79397, CIBIL: 842, Bank: PNB, Loan: Personal, Amount: 3865376, Tenure: 36 months, EMI: 118076.5, Eligible: Yes
+ID: 420, Name: Manoj, Age: 34, City: Chennai, Job: IT Engineer, Income: 53514, CIBIL: 575, Bank: Kotak, Loan: Home, Amount: 4907542, Tenure: 120 months, EMI: 44151.52, Eligible: No
+ID: 421, Name: Pooja, Age: 45, City: Kolkata, Job: Teacher, Income: 18423, CIBIL: 729, Bank: PNB, Loan: Personal, Amount: 4880503, Tenure: 24 months, EMI: 229383.64, Eligible: No
+ID: 422, Name: Vikas, Age: 27, City: Kolkata, Job: Teacher, Income: 95195, CIBIL: 561, Bank: Canara, Loan: Education, Amount: 3591798, Tenure: 48 months, EMI: 83696.38, Eligible: No
+ID: 423, Name: Sneha, Age: 35, City: Mumbai, Job: Student, Income: 98243, CIBIL: 796, Bank: SBI, Loan: Home, Amount: 4179053, Tenure: 48 months, EMI: 94725.2, Eligible: Yes
+ID: 424, Name: Divya, Age: 51, City: Jaipur, Job: Doctor, Income: 79518, CIBIL: 659, Bank: ICICI, Loan: Home, Amount: 1738279, Tenure: 36 months, EMI: 52322.2, Eligible: No
+ID: 425, Name: Vikas, Age: 46, City: Bangalore, Job: IT Engineer, Income: 44242, CIBIL: 816, Bank: SBI, Loan: Car, Amount: 1319305, Tenure: 240 months, EMI: 5967.11, Eligible: Yes
+ID: 426, Name: Nikhil, Age: 21, City: Delhi, Job: Freelancer, Income: 31186, CIBIL: 791, Bank: PNB, Loan: Home, Amount: 2853431, Tenure: 24 months, EMI: 128249.83, Eligible: Yes
+ID: 427, Name: Riya, Age: 34, City: Hyderabad, Job: Doctor, Income: 63097, CIBIL: 848, Bank: Yes Bank, Loan: Personal, Amount: 1209023, Tenure: 24 months, EMI: 55151.6, Eligible: Yes
+ID: 428, Name: Suresh, Age: 57, City: Hyderabad, Job: Freelancer, Income: 96351, CIBIL: 572, Bank: Axis, Loan: Personal, Amount: 4040632, Tenure: 36 months, EMI: 125775.89, Eligible: No
+ID: 429, Name: Kavya, Age: 37, City: Kolkata, Job: Doctor, Income: 66282, CIBIL: 720, Bank: PNB, Loan: Car, Amount: 3485244, Tenure: 48 months, EMI: 81765.28, Eligible: Yes
+ID: 430, Name: Rahul, Age: 58, City: Chennai, Job: Teacher, Income: 91044, CIBIL: 719, Bank: Axis, Loan: Car, Amount: 2773478, Tenure: 48 months, EMI: 64165.57, Eligible: Yes
+ID: 431, Name: Meena, Age: 50, City: Pune, Job: Business, Income: 27139, CIBIL: 553, Bank: SBI, Loan: Personal, Amount: 69534, Tenure: 36 months, EMI: 2180.66, Eligible: No
+ID: 432, Name: Arjun, Age: 36, City: Pune, Job: Business, Income: 98975, CIBIL: 796, Bank: Kotak, Loan: Car, Amount: 3536524, Tenure: 12 months, EMI: 317108.32, Eligible: Yes
+ID: 433, Name: Sneha, Age: 31, City: Jaipur, Job: Analyst, Income: 20381, CIBIL: 578, Bank: PNB, Loan: Education, Amount: 4442017, Tenure: 12 months, EMI: 412552.33, Eligible: No
+ID: 434, Name: Meena, Age: 32, City: Chennai, Job: Business, Income: 29111, CIBIL: 559, Bank: PNB, Loan: Car, Amount: 4202017, Tenure: 48 months, EMI: 98099.59, Eligible: No
+ID: 435, Name: Arjun, Age: 42, City: Vizag, Job: Teacher, Income: 49269, CIBIL: 711, Bank: PNB, Loan: Home, Amount: 4121682, Tenure: 120 months, EMI: 38005.34, Eligible: Yes
+ID: 436, Name: Rahul, Age: 52, City: Delhi, Job: Sales Executive, Income: 72193, CIBIL: 729, Bank: Axis, Loan: Education, Amount: 1539567, Tenure: 60 months, EMI: 29067.02, Eligible: Yes
+ID: 437, Name: Ravi, Age: 28, City: Hyderabad, Job: Analyst, Income: 92921, CIBIL: 570, Bank: Kotak, Loan: Personal, Amount: 4985126, Tenure: 360 months, EMI: 15410.96, Eligible: No
+ID: 438, Name: Riya, Age: 53, City: Pune, Job: Student, Income: 64345, CIBIL: 593, Bank: Axis, Loan: Home, Amount: 2761481, Tenure: 12 months, EMI: 260591.76, Eligible: No
+ID: 439, Name: Riya, Age: 42, City: Jaipur, Job: Manager, Income: 96196, CIBIL: 779, Bank: Canara, Loan: Home, Amount: 460639, Tenure: 240 months, EMI: 2164.81, Eligible: Yes
+ID: 440, Name: Kavya, Age: 29, City: Kolkata, Job: Student, Income: 66336, CIBIL: 653, Bank: Yes Bank, Loan: Home, Amount: 657557, Tenure: 360 months, EMI: 2038.06, Eligible: No
+ID: 441, Name: Sita, Age: 24, City: Mumbai, Job: Clerk, Income: 98311, CIBIL: 579, Bank: HDFC, Loan: Personal, Amount: 476182, Tenure: 24 months, EMI: 21928.18, Eligible: No
+ID: 442, Name: Kiran, Age: 48, City: Vizag, Job: Manager, Income: 29160, CIBIL: 754, Bank: Canara, Loan: Car, Amount: 585111, Tenure: 120 months, EMI: 5285.5, Eligible: Yes
+ID: 443, Name: Arjun, Age: 30, City: Ahmedabad, Job: Analyst, Income: 49096, CIBIL: 731, Bank: SBI, Loan: Personal, Amount: 2029883, Tenure: 36 months, EMI: 63772.16, Eligible: Yes
+ID: 444, Name: Divya, Age: 45, City: Ahmedabad, Job: Business, Income: 30690, CIBIL: 623, Bank: ICICI, Loan: Education, Amount: 898864, Tenure: 120 months, EMI: 8102.51, Eligible: No
+ID: 445, Name: Rahul, Age: 40, City: Mumbai, Job: Sales Executive, Income: 16942, CIBIL: 825, Bank: Axis, Loan: Personal, Amount: 1760827, Tenure: 360 months, EMI: 5280.52, Eligible: No
+ID: 446, Name: Riya, Age: 55, City: Hyderabad, Job: Manager, Income: 96392, CIBIL: 705, Bank: HDFC, Loan: Car, Amount: 4927746, Tenure: 60 months, EMI: 90654.1, Eligible: Yes
+ID: 447, Name: Priya, Age: 59, City: Kolkata, Job: IT Engineer, Income: 81473, CIBIL: 770, Bank: Axis, Loan: Education, Amount: 3723794, Tenure: 120 months, EMI: 33604.14, Eligible: Yes
+ID: 448, Name: Divya, Age: 47, City: Bangalore, Job: Student, Income: 97202, CIBIL: 668, Bank: Axis, Loan: Personal, Amount: 4326146, Tenure: 48 months, EMI: 102106.06, Eligible: No
+ID: 449, Name: Rahul, Age: 29, City: Delhi, Job: Student, Income: 65329, CIBIL: 707, Bank: SBI, Loan: Education, Amount: 933381, Tenure: 360 months, EMI: 2814.14, Eligible: Yes
+ID: 450, Name: Meena, Age: 32, City: Hyderabad, Job: IT Engineer, Income: 54023, CIBIL: 600, Bank: Yes Bank, Loan: Home, Amount: 3629736, Tenure: 24 months, EMI: 164714.39, Eligible: No
+ID: 451, Name: Meena, Age: 51, City: Jaipur, Job: IT Engineer, Income: 93934, CIBIL: 707, Bank: Yes Bank, Loan: Car, Amount: 328832, Tenure: 360 months, EMI: 1005.04, Eligible: Yes
+ID: 452, Name: Rohit, Age: 45, City: Chennai, Job: Doctor, Income: 79261, CIBIL: 654, Bank: PNB, Loan: Education, Amount: 2716801, Tenure: 24 months, EMI: 122165.48, Eligible: No
+ID: 453, Name: Sita, Age: 60, City: Jaipur, Job: Sales Executive, Income: 65839, CIBIL: 664, Bank: Axis, Loan: Personal, Amount: 2318380, Tenure: 240 months, EMI: 10734.1, Eligible: No
+ID: 454, Name: Anjali, Age: 46, City: Delhi, Job: Freelancer, Income: 74980, CIBIL: 811, Bank: Kotak, Loan: Education, Amount: 4851830, Tenure: 24 months, EMI: 225327.07, Eligible: Yes
+ID: 455, Name: Rohit, Age: 44, City: Delhi, Job: Doctor, Income: 38843, CIBIL: 650, Bank: Yes Bank, Loan: Education, Amount: 521805, Tenure: 12 months, EMI: 47358.15, Eligible: No
+ID: 456, Name: Suresh, Age: 57, City: Pune, Job: Doctor, Income: 79673, CIBIL: 634, Bank: PNB, Loan: Car, Amount: 3369879, Tenure: 240 months, EMI: 15626.41, Eligible: No
+ID: 457, Name: Anjali, Age: 22, City: Kolkata, Job: Doctor, Income: 87336, CIBIL: 714, Bank: ICICI, Loan: Home, Amount: 430467, Tenure: 360 months, EMI: 1303.12, Eligible: Yes
+ID: 458, Name: Anjali, Age: 53, City: Bangalore, Job: IT Engineer, Income: 61324, CIBIL: 696, Bank: Canara, Loan: Personal, Amount: 1926177, Tenure: 12 months, EMI: 180242.01, Eligible: No
+ID: 459, Name: Riya, Age: 35, City: Delhi, Job: Teacher, Income: 82023, CIBIL: 632, Bank: PNB, Loan: Car, Amount: 1972560, Tenure: 360 months, EMI: 6110.0, Eligible: No
+ID: 460, Name: Pooja, Age: 25, City: Bangalore, Job: Manager, Income: 23886, CIBIL: 558, Bank: Canara, Loan: Education, Amount: 2047887, Tenure: 240 months, EMI: 9427.11, Eligible: No
+ID: 461, Name: Suresh, Age: 54, City: Jaipur, Job: Sales Executive, Income: 73414, CIBIL: 645, Bank: ICICI, Loan: Home, Amount: 1010773, Tenure: 360 months, EMI: 3041.3, Eligible: No
+ID: 462, Name: Divya, Age: 57, City: Delhi, Job: Analyst, Income: 41822, CIBIL: 716, Bank: SBI, Loan: Personal, Amount: 4349709, Tenure: 360 months, EMI: 13265.4, Eligible: Yes
+ID: 463, Name: Suresh, Age: 60, City: Hyderabad, Job: Analyst, Income: 47302, CIBIL: 629, Bank: SBI, Loan: Education, Amount: 2934505, Tenure: 48 months, EMI: 69046.46, Eligible: No
+ID: 464, Name: Suresh, Age: 43, City: Kolkata, Job: Analyst, Income: 40677, CIBIL: 760, Bank: Canara, Loan: Car, Amount: 1949909, Tenure: 360 months, EMI: 5941.81, Eligible: Yes
+ID: 465, Name: Sita, Age: 34, City: Jaipur, Job: Clerk, Income: 50151, CIBIL: 724, Bank: Yes Bank, Loan: Home, Amount: 1343545, Tenure: 12 months, EMI: 123449.39, Eligible: Yes
+ID: 466, Name: Rahul, Age: 46, City: Pune, Job: Teacher, Income: 98301, CIBIL: 643, Bank: PNB, Loan: Personal, Amount: 4731171, Tenure: 240 months, EMI: 21641.16, Eligible: No
+ID: 467, Name: Suresh, Age: 27, City: Delhi, Job: Analyst, Income: 85718, CIBIL: 642, Bank: HDFC, Loan: Personal, Amount: 4031254, Tenure: 120 months, EMI: 37732.54, Eligible: No
+ID: 468, Name: Amit, Age: 21, City: Jaipur, Job: Student, Income: 77333, CIBIL: 782, Bank: Axis, Loan: Home, Amount: 4411004, Tenure: 360 months, EMI: 13339.61, Eligible: Yes
+ID: 469, Name: Vikas, Age: 50, City: Mumbai, Job: IT Engineer, Income: 68534, CIBIL: 683, Bank: SBI, Loan: Car, Amount: 3094424, Tenure: 240 months, EMI: 13932.64, Eligible: No
+ID: 470, Name: Nikhil, Age: 41, City: Ahmedabad, Job: Analyst, Income: 80670, CIBIL: 637, Bank: HDFC, Loan: Home, Amount: 3970323, Tenure: 60 months, EMI: 73020.86, Eligible: No
+ID: 471, Name: Amit, Age: 28, City: Mumbai, Job: IT Engineer, Income: 31269, CIBIL: 786, Bank: SBI, Loan: Car, Amount: 3415595, Tenure: 24 months, EMI: 156007.3, Eligible: Yes
+ID: 472, Name: Priya, Age: 47, City: Jaipur, Job: Sales Executive, Income: 74624, CIBIL: 791, Bank: Axis, Loan: Personal, Amount: 1470711, Tenure: 48 months, EMI: 34647.5, Eligible: Yes
+ID: 473, Name: Rahul, Age: 34, City: Kolkata, Job: Business, Income: 34239, CIBIL: 746, Bank: Yes Bank, Loan: Home, Amount: 844242, Tenure: 12 months, EMI: 78416.01, Eligible: Yes
+ID: 474, Name: Divya, Age: 55, City: Pune, Job: Business, Income: 78675, CIBIL: 757, Bank: Yes Bank, Loan: Personal, Amount: 2027017, Tenure: 60 months, EMI: 38158.6, Eligible: Yes
+ID: 475, Name: Sneha, Age: 33, City: Mumbai, Job: Teacher, Income: 81937, CIBIL: 764, Bank: HDFC, Loan: Car, Amount: 3123922, Tenure: 12 months, EMI: 287765.28, Eligible: Yes
+ID: 476, Name: Kiran, Age: 35, City: Hyderabad, Job: Clerk, Income: 95972, CIBIL: 600, Bank: PNB, Loan: Personal, Amount: 2606304, Tenure: 24 months, EMI: 119477.32, Eligible: No
+ID: 477, Name: Riya, Age: 29, City: Pune, Job: Sales Executive, Income: 79066, CIBIL: 703, Bank: SBI, Loan: Personal, Amount: 2754836, Tenure: 12 months, EMI: 250185.02, Eligible: Yes
+ID: 478, Name: Neha, Age: 22, City: Hyderabad, Job: Sales Executive, Income: 46433, CIBIL: 714, Bank: PNB, Loan: Personal, Amount: 2115926, Tenure: 120 months, EMI: 19558.21, Eligible: Yes
+ID: 479, Name: Kavya, Age: 47, City: Pune, Job: Student, Income: 19829, CIBIL: 836, Bank: Canara, Loan: Home, Amount: 2491962, Tenure: 12 months, EMI: 223362.86, Eligible: No
+ID: 480, Name: Priya, Age: 48, City: Delhi, Job: Freelancer, Income: 45533, CIBIL: 771, Bank: HDFC, Loan: Car, Amount: 2096995, Tenure: 48 months, EMI: 48016.82, Eligible: Yes
+ID: 481, Name: Nikhil, Age: 59, City: Vizag, Job: Freelancer, Income: 28854, CIBIL: 716, Bank: SBI, Loan: Personal, Amount: 4572940, Tenure: 48 months, EMI: 102957.84, Eligible: Yes
+ID: 482, Name: Suresh, Age: 35, City: Jaipur, Job: Freelancer, Income: 96699, CIBIL: 557, Bank: PNB, Loan: Education, Amount: 4236440, Tenure: 36 months, EMI: 133024.22, Eligible: No
+ID: 483, Name: Neha, Age: 44, City: Chennai, Job: Business, Income: 35109, CIBIL: 558, Bank: HDFC, Loan: Car, Amount: 3486110, Tenure: 360 months, EMI: 10533.86, Eligible: No
+ID: 484, Name: Manoj, Age: 34, City: Pune, Job: Freelancer, Income: 59231, CIBIL: 600, Bank: Yes Bank, Loan: Education, Amount: 1972845, Tenure: 360 months, EMI: 6118.56, Eligible: No
+ID: 485, Name: Anjali, Age: 37, City: Pune, Job: Manager, Income: 90696, CIBIL: 741, Bank: Yes Bank, Loan: Car, Amount: 2609632, Tenure: 240 months, EMI: 11710.72, Eligible: Yes
+ID: 486, Name: Manoj, Age: 47, City: Pune, Job: Clerk, Income: 89865, CIBIL: 622, Bank: SBI, Loan: Home, Amount: 3745732, Tenure: 120 months, EMI: 33686.62, Eligible: No
+ID: 487, Name: Divya, Age: 45, City: Jaipur, Job: Analyst, Income: 98138, CIBIL: 585, Bank: Axis, Loan: Car, Amount: 4566434, Tenure: 360 months, EMI: 14147.07, Eligible: No
+ID: 488, Name: Ravi, Age: 23, City: Kolkata, Job: Analyst, Income: 76973, CIBIL: 692, Bank: ICICI, Loan: Personal, Amount: 1867300, Tenure: 120 months, EMI: 17275.64, Eligible: No
+ID: 489, Name: Manoj, Age: 36, City: Kolkata, Job: Freelancer, Income: 41667, CIBIL: 712, Bank: Axis, Loan: Education, Amount: 2969386, Tenure: 120 months, EMI: 27377.74, Eligible: Yes
+ID: 490, Name: Priya, Age: 36, City: Mumbai, Job: Clerk, Income: 62065, CIBIL: 700, Bank: Axis, Loan: Home, Amount: 3327485, Tenure: 120 months, EMI: 30937.29, Eligible: Yes
+ID: 491, Name: Suresh, Age: 55, City: Chennai, Job: Teacher, Income: 27637, CIBIL: 747, Bank: Axis, Loan: Personal, Amount: 2592713, Tenure: 24 months, EMI: 121576.63, Eligible: Yes
+ID: 492, Name: Amit, Age: 36, City: Hyderabad, Job: Clerk, Income: 54701, CIBIL: 824, Bank: PNB, Loan: Personal, Amount: 855930, Tenure: 240 months, EMI: 3954.75, Eligible: Yes
+ID: 493, Name: Priya, Age: 58, City: Hyderabad, Job: Doctor, Income: 15635, CIBIL: 752, Bank: Axis, Loan: Education, Amount: 339628, Tenure: 12 months, EMI: 30900.49, Eligible: No
+ID: 494, Name: Arjun, Age: 25, City: Mumbai, Job: Freelancer, Income: 41367, CIBIL: 696, Bank: Kotak, Loan: Education, Amount: 4410783, Tenure: 120 months, EMI: 40347.64, Eligible: No
+ID: 495, Name: Sita, Age: 45, City: Kolkata, Job: Sales Executive, Income: 59302, CIBIL: 623, Bank: Axis, Loan: Education, Amount: 357215, Tenure: 12 months, EMI: 32774.48, Eligible: No
+ID: 496, Name: Arjun, Age: 26, City: Bangalore, Job: Student, Income: 87714, CIBIL: 760, Bank: Kotak, Loan: Home, Amount: 1361109, Tenure: 240 months, EMI: 6282.09, Eligible: Yes
+ID: 497, Name: Nikhil, Age: 55, City: Pune, Job: Clerk, Income: 93915, CIBIL: 698, Bank: Axis, Loan: Education, Amount: 863909, Tenure: 12 months, EMI: 77442.24, Eligible: No
+ID: 498, Name: Arjun, Age: 34, City: Pune, Job: Business, Income: 96233, CIBIL: 570, Bank: PNB, Loan: Home, Amount: 917023, Tenure: 24 months, EMI: 41571.71, Eligible: No
+ID: 499, Name: Kavya, Age: 35, City: Vizag, Job: Sales Executive, Income: 48544, CIBIL: 569, Bank: SBI, Loan: Personal, Amount: 369778, Tenure: 12 months, EMI: 33480.32, Eligible: No
+ID: 500, Name: Neha, Age: 48, City: Jaipur, Job: Analyst, Income: 32862, CIBIL: 618, Bank: Yes Bank, Loan: Car, Amount: 1186404, Tenure: 360 months, EMI: 3659.4, Eligible: No`;
+    const RULES_DATA = `INDIAN BANK LOAN ELIGIBILITY RULES (GENERAL)
+
+1. Age Criteria:
+   - Minimum Age: 21 years
+   - Maximum Age at Loan Maturity: 60 years (Salaried), 65 years (Self-employed)
+
+2. Income Criteria:
+   - Minimum Monthly Income: ₹25,000 (Salaried)
+   - Minimum Annual Income: ₹3,00,000 (Self-employed)
+   - Stable income source required
+
+3. Credit Score (CIBIL):
+   - Minimum Required Score: 700
+   - Preferred Score: 750+
+   - No major loan defaults in last 24 months
+
+4. Employment Criteria:
+   - Salaried: Minimum 1 year in current job
+   - Self-employed: Minimum 3 years in business
+   - Valid income proof required
+
+5. Loan Amount:
+   - Personal Loan: Up to ₹25 Lakhs
+   - Home Loan: Up to ₹5 Crores
+   - Car Loan: Up to ₹50 Lakhs
+   - Education Loan: Up to ₹1.5 Crores
+
+6. Loan Tenure:
+   - Personal Loan: Up to 5 years
+   - Home Loan: Up to 30 years
+   - Car Loan: Up to 7 years
+   - Education Loan: Up to 15 years
+
+7. EMI Rules:
+   - EMI should not exceed 40% of monthly income
+   - Total liabilities must be manageable
+
+8. Documents Required:
+   - Aadhaar Card
+   - PAN Card
+   - Address Proof
+   - Salary Slips / IT Returns
+   - Bank Statements (Last 6 months)
+
+9. Interest Rates (Approximate):
+   - Personal Loan: 10% – 15%
+   - Home Loan: 7% – 9%
+   - Car Loan: 8% – 11%
+   - Education Loan: 7% – 10%
+
+10. Processing Fee:
+    - 0.5% – 2% of loan amount
+
+11. Co-Applicant Rules:
+    - Spouse / Parent allowed
+    - Combined income considered
+
+12. Property Rules (Home Loan):
+    - Property must be approved by bank
+    - Clear legal title required
+    - No disputes on property
+
+13. Prepayment & Foreclosure:
+    - Some banks charge penalty
+    - Floating rate loans often have no penalty
+
+14. Rejection Reasons:
+    - Low income
+    - Low credit score
+    - Job instability
+    - High existing EMI
+    - Incomplete documents
+
+15. Special Categories:
+    - Government employees get benefits
+    - Defense personnel get concessions
+    - Women applicants may get lower rates
+
+Note:
+These rules may vary slightly between banks such as SBI, HDFC, ICICI, Axis, PNB, etc.
+Always verify with official bank sources.`;
+
+    const SYSTEM_PROMPT = `You are Kranthi AI Assistant.
+You are a professional Loan & Finance Advisor in India.
+
+You have access to official customer records and banking rules.
+
+=====================
+CUSTOMER DATA:
+${CSV_DATA}
+
+=====================
+BANK RULES:
+${RULES_DATA}
+
+=====================
+
+Instructions:
+- Use the above data and rules
+- Follow eligibility strictly
+- Do not guess
+- Be clear and polite
+- Give step-by-step answers
+- If data is missing, say so`;
+
+    function createMessage(text, className) {
+        const msg = document.createElement("div");
+        msg.className = "message " + className;
+        msg.innerText = text;
+        document.getElementById("chatBox").appendChild(msg);
+        document.getElementById("chatBox").scrollTop =
+            document.getElementById("chatBox").scrollHeight;
+        return msg;
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById("userInput");
+        const btn = document.getElementById("sendBtn");
+        const text = input.value.trim();
+        if (!text) return;
+
+        input.value = "";
+        btn.disabled = true;
+        btn.innerText = "...";
+
+        createMessage(text, "user");
+        const botMsg = createMessage("", "bot");
+
+        try {
+            const response = await fetch("http://127.0.0.1:11434/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    model: "llama3:latest",
+                    messages: [
+                        { role: "system", content: SYSTEM_PROMPT },
+                        { role: "user", content: text }
+                    ],
+                    stream: true
+                })
+            });
+
+            if (!response.ok) {
+                botMsg.innerText = "❌ Error: Could not connect to Ollama. Make sure it is running with: OLLAMA_ORIGINS=* ollama serve";
+                return;
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                const chunk = decoder.decode(value);
+                const lines = chunk.split("\n").filter(l => l.trim());
+                for (const line of lines) {
+                    try {
+                        const data = JSON.parse(line);
+                        if (data.message && data.message.content) {
+                            botMsg.innerText += data.message.content;
+                            document.getElementById("chatBox").scrollTop =
+                                document.getElementById("chatBox").scrollHeight;
+                        }
+                    } catch (e) {}
+                }
+            }
+        } catch (err) {
+            botMsg.innerText = "❌ Cannot reach Ollama. Please run: OLLAMA_ORIGINS=* ollama serve";
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Send";
+        }
+    }
+
+    document.getElementById("userInput").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") sendMessage();
+    });
+</script>
+
+</body>
+</html>

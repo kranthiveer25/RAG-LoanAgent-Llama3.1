@@ -1,0 +1,18 @@
+{
+  "Random Forest": {
+    "accuracy": 100.0,
+    "cv": 99.8
+  },
+  "SVM": {
+    "accuracy": 91.0,
+    "cv": 92.4
+  },
+  "Decision Tree": {
+    "accuracy": 100.0,
+    "cv": 100.0
+  },
+  "Naive Bayes": {
+    "accuracy": 89.0,
+    "cv": 90.4
+  }
+}
