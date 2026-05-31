@@ -1,0 +1,1 @@
+AI-powered loan eligibility prediction platform built to democratize access to financial clarity for Indian borrowers. The platform uses machine learning models trained on real-world lending data to predict home and education loan eligibility instantly — no bank visits, no waiting.
